@@ -1,0 +1,80 @@
+tbody tr:hover{
+  cursor: pointer;
+}
+
+:host ::ng-deep .custom-pagination {
+.ngx-pagination {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 5px;
+  
+  li {
+    display: inline-block;
+    border-radius: 3px;
+    
+    a {
+      padding: 8px 14px;
+      border: 1px solid #dee2e6;
+      color: #038Edc;
+      background: white;
+      
+      &:hover {
+        background: #038Edc;
+        color: white;
+        text-decoration: none;
+      }
+    }
+    
+    &.current {
+      background: #038Edc;
+      color: white;
+      padding: 8px 14px;
+      border: 1px solid #038Edc;
+    }
+    
+    &.disabled {
+      a {
+        color: #6c757d;
+        cursor: not-allowed;
+        background: #f8f9fa;
+        
+        &:hover {
+          background: #f8f9fa;
+          color: #6c757d;
+        }
+      }
+    }
+  }
+}
+}
+
+.list-container {
+display: flex;
+flex-direction: column;
+// min-height: calc(100vh - 250px); /* Increased space from top */
+position: relative;
+}
+
+
+
+.pagination-footer {
+margin-top: auto;
+padding: 1rem 0;
+background-color: white;
+// border-top: 1px solid #dee2e6;
+}
+
+a {
+  color: inherit; /* Use the inherited color */
+  text-decoration: none; /* Remove underline */
+}
+
+a:hover {
+  text-decoration: underline; 
+}
+
+/* Ensure table cells have consistent styling */
+.table td {
+  color: black; 
+}

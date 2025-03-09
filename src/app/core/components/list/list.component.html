@@ -1,0 +1,124 @@
+<div class="list-container">
+  <div class="table-content">
+    <div class="row">
+      <div class="col-12">
+        <div class="border_none">
+          <div class="py-2">
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered table-sm ">
+                <thead class="font-size-10">
+                  <tr>
+                    <th class="bg-primary text-white font-size-10" style="width: 4.5%">
+                      Sl. No
+                    </th>
+                    <th class="bg-primary text-white font-size-10" *ngFor="let column of columns">
+                      {{ column.label||column.actionlabel}}
+                    </th>
+                    <th class="bg-primary text-white font-size-10" *ngIf="showActions">
+                      Action
+                    </th>
+                    <th *ngIf="showCheckboxes" class="bg-primary text-white font-size-10" style="width: 5%">
+                      <input type="checkbox" (click)="toggleAllCheckboxes($event)" />
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="
+                      let item of data | paginate: { 
+                        itemsPerPage: itemsPerPage,
+                        currentPage: currentPage,
+                        totalItems: data.length
+                      }; let i = index
+                    " (click)="onRowClick(item)">
+                    <td style="color: black" class="font-size-10">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+                    <td *ngFor="let column of columns" style="color: black" class="font-size-10">
+                      <ng-container *ngIf="
+                          column.type === 'button' && column.action;
+                          else normalCell
+                        ">
+                        <button class="btn btn-link p-0 font-size-10"
+                          (click)="executeColumnAction(column.action!, item)"
+                          *ngIf="column.label &&(column.label !== 'Create Invoice' || item.status !== 'Partially')">
+                          {{ column.label }}
+                        </button>
+                        <button class="btn btn-link p-0 font-size-10"
+                          (click)="executeColumnAction(column.action!, item)"
+                          *ngIf="!column.label &&(column.label !== 'Create Invoice' || item.status !== 'Partially')">
+                          {{ item[column.key]!=='NA'?item[column.key]:'' }}
+                        </button>
+                      </ng-container>
+                      <ng-template #normalCell>
+                        <a *ngIf="columns.indexOf(column) === 0" (click)="navigateToEdit(item)">
+                          {{ item[column.key]!=='NA'?item[column.key]:'' }}
+                        </a>
+                        <span *ngIf="columns.indexOf(column) !== 0">
+                          <!-- Check if the column is 'priceApplicableFrom' -->
+
+                          <ng-container *ngIf="
+                              column.key === 'priceApplicableFrom' ||
+                                column.key === 'soDate' ||
+                                column.key === 'invoiceDate' ||
+                                column.key === 'dispatchDate' ||
+                                column.key === 'salesReturnDate' ||
+                                column.key === 'dtStrt' ||
+                                column.key === 'dtEnd' ||
+                                column.key === 'paymentDate' ||
+                                column.key === 'creationDate' ||
+                                column.key === 'transferReqDate' ||
+                                column.key === 'poDate' ||
+                                column.key === 'receipDate' ||
+                                column.key === 'receiptDate' ||
+                                column.key === 'transferDate' ||
+                                column.key === 'date';
+                              else defaultCell
+                            " class="font-size-10">
+                            {{ item[column.key] | date : "dd-MM-yyyy" }}
+                          </ng-container>
+
+                          <ng-template #defaultCell class="font-size-10">
+                            {{ item[column.key]!=='NA'? item[column.key]:''}}
+                          </ng-template>
+                        </span>
+                      </ng-template>
+                    </td>
+
+                    <td *ngIf="showActions">
+                      <div class="dropdown" ngbDropdown>
+                        <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                          aria-expanded="false" ngbDropdownToggle>
+                          <i class="uil uil-ellipsis-h"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                          <li *ngFor="let action of listActions">
+                            <a class="dropdown-item" (click)="executeAction(action.action, item)">{{ action.tooltip
+                              }}</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                    <td *ngIf="showCheckboxes">
+                      <input type="checkbox" [(ngModel)]="item.selected" />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pagination-footer">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        Showing {{ ((currentPage - 1) * itemsPerPage) + 1 }} to
+        {{ currentPage * itemsPerPage > data.length ? data.length : currentPage * itemsPerPage }}
+        of {{ data.length }} entries
+      </div>
+      <pagination-controls (pageChange)="onPageChange($event)" previousLabel="Previous" nextLabel="Next"
+        [responsive]="true" class="custom-pagination">
+      </pagination-controls>
+    </div>
+  </div>
+</div>

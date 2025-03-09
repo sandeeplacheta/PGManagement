@@ -1,0 +1,184 @@
+<!-- lineitems -->
+<div style="height: 60vh; overflow-y: hidden; position: relative" class="a">
+  <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    <div style="height: 40vh; overflow-y: auto">
+      <table
+        class="table table-bordered table-hover table-striped table-sm font-size-12"
+      >
+        <thead class="thead-dark">
+          <tr>
+            <th class="bg-primary text-white" style="width: 2.5%">Sl. No</th>
+            <th
+            *ngFor="let column of tableColumns"
+              [style.width]="column.width"
+              class="bg-primary text-white"
+              [hidden]="column.hidden"
+            >
+              {{ column.header }}
+              <input
+                *ngIf="column.type === 'checkbox'"
+                [type]="column.type"
+                class="form-check-input"
+                (change)="toggleSelectAll($event)"
+              />
+            </th>
+            <th *ngIf="Action" class="bg-primary text-white" style="width: 4%">
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody formArrayName="items">
+          <tr
+            *ngFor="let item of items.controls; let i = index"
+            [formGroupName]="i"
+          >
+            <td>{{ i + 1 }}</td>
+            <td *ngFor="let column of tableColumns" [hidden]="column.hidden">
+              <input
+                class="form-check-input"
+                *ngIf="column.type === 'checkbox'"
+                [formControlName]="column.name"
+                [checked]="isChecked(item)"
+                (change)="onInputChecked($event, item)"
+                [type]="column.type"
+              />
+              <input
+                *ngIf="
+                  !readonly &&
+                  0 <= ['text', 'date', 'number'].indexOf(column.type)
+                "
+                [formControlName]="column.name"
+                [type]="column.type"
+                class="form-control font-size-12 form-control-sm"
+                [required]="!!column.required"
+
+                [readonly]="column.editable"
+                [disabled]="!column.editable || readonly"
+              />
+              <ng-select
+                *ngIf="!readonly && column.type === 'select'"
+                [formControlName]="column.name"
+                class="custom-input-sm"
+                [required]="!!column.required"
+
+                [disabled]="column.editable === false || readonly"
+                [items]="column.options ?? []"
+                (change)="onDropDownChange($event, column)"
+              >
+                <ng-option
+                  *ngFor="let option of column.options"
+                  [value]="option"
+                >
+                  {{ option }}
+                </ng-option>
+              </ng-select>
+
+              <span *ngIf="readonly">{{ item.get(column.name)?.value }}</span>
+              <div
+                *ngIf="
+                  item.get(column.name)?.invalid &&
+                  (item.get(column.name)?.dirty ||
+                    item.get(column.name)?.touched)
+                "
+              >
+                <div *ngIf="item.get(column.name)?.errors?.required">
+                  This field is required.
+                </div>
+              </div>
+            </td>
+            <td *ngIf="Action">
+              <button
+                class="form-control font-size-12 form-control-sm"
+                ngbTooltip="Delete"
+                type="button"
+                (click)="removeItem(i)"
+              >
+                <i class="uil uil-trash-alt"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="height: 20vh; position: fixed; width: 100%; overflow-y: auto">
+      <div>
+        <!-- {{config.showAddItem}} -->
+        <div class="d-flex" >
+          <button  *ngIf="config.showAddItem"
+            class="btn btn-primary btn-sm mx-4 my-2"
+            type="button"
+            (click)="addItem()"
+          >
+            Add Item
+          </button>
+
+          <div style="display: flex; flex-direction: column">
+            <!-- First Span: Scheme Name -->
+            <ng-container *ngIf="this.config.schemedata != null">
+              <span *ngIf="this.config.schemedata" class="text-success">
+                {{ this.config.schemedata.schemeName }}
+              </span>
+
+              <!-- Second Span: Scheme Details -->
+              <span
+                *ngIf="
+                  this.config &&
+                  this.config.schemedata.schemeType === 'mrpAmount'
+                "
+                class="text-success"
+              >
+                free mrp amount of &#8377;{{
+                  this.config.schemedata.schemeAmount
+                }}
+              </span>
+              <span
+                *ngIf="
+                  this.config &&
+                  this.config.schemedata.schemeType === 'discount'
+                "
+                class="text-success"
+              >
+                {{ this.config.schemedata.schemeAmount }}% Discount
+              </span>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="config.selectInvoice.show">
+        <!-- {{config.showAddItem}} -->
+        <button
+          class="btn btn-primary btn-sm"
+          type="button"
+          (click)="config.selectInvoice.action()"
+        >
+          {{ config.selectInvoice.label }}
+        </button>
+      </div>
+
+      <div
+        *ngIf="config.totalService"
+        style="overflow-y: auto; overflow-x: hidden"
+      >
+        <div class="row">
+          <div class="col-md-3" *ngFor="let total of config.totals">
+            <div class="form-group row align-items-center">
+              <label
+                [for]="total.name"
+                class="col-sm-6 col-form-label font-size-14"
+                >{{ total.label | titlecase }}</label
+              >
+              <div class="col-sm-6">
+                <!-- {{config.viewso.view
+                          ? config.totalService.getTotal(total.name,items.value)
+                          : config.totalService.setTotal(total.name, this.config.viewso.item)
+                        }} -->
+                {{ config.totalService.getTotal(total.name, items.value) }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

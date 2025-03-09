@@ -1,0 +1,164 @@
+<style>
+  .custom-input-sm {
+    font-size: 10px;       /* Smaller font size */
+    padding: 0;            /* No padding */
+    border-radius: 4px;    /* Adjust border-radius as needed */
+  }
+    .custom{
+      width: 55%;
+      margin-bottom: 5px;
+    }
+
+</style>
+<h5 class="card-title font-size-20">
+    {{ title }}
+  </h5>
+  
+  <form [formGroup]="invoiceform" class="mb-1" >
+    <div style="height: 12vh">
+      <div class="row">
+        <div *ngFor="let field of fields" class="col-md-3">
+          <div class="form-group row align-items-center">
+            <label
+              [for]="field.name"
+              class="col-sm-4 font-size-12 mb-3"
+              >{{ field.label }}</label
+            >
+            <div *ngIf="!readonly" class="custom" >
+              <input
+                *ngIf="
+                  field.type === 'text' ||
+                  field.type === 'number' ||
+                  field.type === 'date'
+                "
+                [type]="field.type"
+                class="form-control font-size-12 form-control-sm mb-3"
+                [id]="field.name"
+                [ngClass]="{
+                  'is-invalid':invoiceform.controls[field.name].touched && field.required,
+                  'valid': invoiceform.controls[field.name].dirty
+                }"
+                [readonly]="field.name === 'soNumber'? field.editable : false"
+                [formControlName]="field.name"
+                [name]="field.name"
+                [placeholder]="field.placeholder"
+                (change)="onDropDownChange($event,field)"
+              />
+  
+              <ng-select  *ngIf="field.type === 'select'"
+              [items]="field.options"
+                [formControlName]="field.name"
+                class="custom-input-sm mb-2"
+                (change)="onDropDownChange($event,field)"
+                [ngClass]="{
+                  'is-invalid':invoiceform.controls[field.name].touched && field.required,
+                  'valid': invoiceform.controls[field.name].dirty
+                }"
+              >
+                <ng-option 
+                  *ngFor="let option of field.options"
+                  [value]="option.value"
+                >
+                  {{ option.label}}
+                </ng-option>
+              </ng-select>
+              <input
+                *ngIf="field.type === 'file'"
+                type="file"
+                class="form-control font-size-12 form-control-sm mb-3"
+                [formControlName]="field.name"
+                [ngClass]="{
+                  'is-invalid':invoiceform.controls[field.name].touched && field.required,
+                  'valid': invoiceform.controls[field.name].dirty
+                }"
+                [id]="field.name"
+          
+                [name]="field.name"
+              />
+              <input
+                *ngIf="field.type === 'tel'"
+                type="tel"
+                class="form-control font-size-12 form-control-sm mb-3"
+                [formControlName]="field.name"
+  
+                [id]="field.name"
+                [ngClass]="{
+                  'is-invalid':invoiceform.controls[field.name].touched && field.required,
+                  'valid': invoiceform.controls[field.name].dirty
+                }"
+                [name]="field.name"
+              />
+              <input
+                *ngIf="field.type === 'month-year-picker'"
+                type="month"
+                class="form-control font-size-12 form-control-sm mb-3"
+                [formControlName]="field.name"
+  
+                [id]="field.name"
+                [ngClass]="{
+                  'is-invalid':invoiceform.controls[field.name].touched && field.required,
+                  'valid': invoiceform.controls[field.name].dirty
+                }"
+                [name]="field.name"
+              />
+            </div>
+            <div *ngIf="readonly" class="col-sm-8">
+              {{rootData?rootData[field.name]:"Not Available"}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div>
+      <app-multiline-form #childForm [tableColumns]="tableColumns" [svc]="svc"  [tdata]="tdata" [Action]="showActionControl" [readonly]="readonly"   [config]="{'totals':totals,'totalService':totalService, 'showAddItem': showAddItem, 'selectInvoice':selectInvoices, 'schemedata' : '' }"></app-multiline-form>
+      
+    </div>
+    
+    
+    <div *ngIf="totalService==null" style="height: 6vh; overflow-y: auto; overflow-x: hidden">
+      <div class="row">
+        <div class="col-md-3" *ngFor="let total of totals">
+          <div class="form-group row align-items-center">
+            <label
+              [for]="total.name"
+              class="col-sm-6 col-form-label font-size-14"
+              >{{ total.label | titlecase }}</label
+            >
+            <div class="col-sm-6">
+              <input
+                type="number"
+                class="form-control font-size-14 form-control-sm"
+                [id]="total.name"
+          
+                [formControlName]="total.name"
+                [name]="total.name"
+                readonly
+              />
+            </div>
+          </div>
+        </div> 
+  
+      </div>
+    </div>
+  
+    <div *ngIf="showFnKeyControls" style="position: relative; z-index: 100;" class="d-flex justify-content-end md-2 mb-1">
+      <button
+        *ngFor="let button of buttons"
+        [type]="button.type === 'primary' ? 'submit' : 'button'"
+        [ngClass]="{
+          'btn-primary': button.type === 'primary',
+          'btn-secondary': button.type === 'secondary',
+          'btn-success' : button.type === 'success'
+        }"
+       
+        class="btn btn-sm me-2"
+        
+        (click)="button.action()"
+      >
+        {{ button.label }}
+      </button>
+    </div>
+  </form>
+  
+  

@@ -1,0 +1,21 @@
+
+
+  <div class="current-route">
+    <p class="heading"><strong>Navigation Component title:</strong> {{ title }}</p>
+    <p class="nav-content"> Current route {{currentRoute}}</p>
+  </div>
+  <nav>
+    <span *ngFor="let link of links">
+      <button (click)="navigate([link])"> {{link}}   </button>
+      </span>
+    </nav>
+  <div class="navigation-history">
+    <h4>Navigation History:</h4>
+    <ol>
+      <li *ngFor="let step of redirectionHistory">
+        <span [ngClass]="step.class">{{step.value}}</span>
+        
+      </li>
+    </ol>
+  </div>
+  <router-outlet></router-outlet>

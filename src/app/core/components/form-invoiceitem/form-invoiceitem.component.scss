@@ -1,0 +1,30 @@
+// ::ng-deep{
+//     ng-select div{
+        // height: unset !important;
+        // min-height: unset !important;
+        // border: none !important;
+        // text-decoration-style: solid;
+//     }
+// }
+
+// .custom-dropdown {
+//     height: calc(1.5em + 0.5rem + 1px);
+//     // padding: 0.025rem 0.5rem; 
+//     font-size: 12px;
+// }
+
+::ng-deep{
+        .position{
+                width: 100%;
+                position: relative;
+                z-index: 100;
+        }
+        .is-invalid {
+                border-color: red;
+                box-shadow: 0 0 0 .1rem rgba(249, 4, 4, 0.785);
+            }
+        .valid{
+                border-color: rgb(0, 255, 42);
+                box-shadow: 0 0 0 .1rem rgba(4, 249, 12, 0.785); 
+        }
+}

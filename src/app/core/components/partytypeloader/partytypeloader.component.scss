@@ -1,0 +1,61 @@
+
+.form-control{
+    width: 0% !important;
+    min-width: 25% !important;
+  }
+  .p-0{
+  padding: 0 !important;
+  }
+  .custom-class{
+    width: 100%;
+  padding: 2px 2px;
+  border: 2px solid #ccc; /* Change the border color */
+  font-size: 12px; /* Font size */
+  box-shadow: none; /* Remove box shadow */
+  }
+  .search-box:focus {
+  border-color: #038edc; /* Change border color on focus */
+  box-shadow: #038edc; /* Add a slight shadow on focus */
+  }
+  
+  .search-box::placeholder {
+  color: #aaa; /* Placeholder color */
+  }
+  
+  .custom-class {
+  box-sizing: border-box;
+  }
+  .search-container {
+  position: relative;
+  display: inline-block;
+  }
+  
+  .search-box {
+  width: 200px; /* Reduced width for a smaller input box */
+  padding: 6px 12px; /* Smaller padding */
+  font-size: 14px; /* Smaller font size */
+  border: 1px solid #ccc; /* Thin border */
+  border-radius: 20px; /* Subtle rounded corners */
+  transition: all 0.3s ease;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Smaller shadow for subtle depth */
+  }
+  
+  .search-box::placeholder {
+  color: #888; /* Lighter placeholder color */
+  font-style: italic;
+  }
+  
+  .search-box:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15); /* More prominent shadow on focus */
+  }
+  
+  .search-box:hover {
+  border-color: #007bff; /* Subtle hover effect */
+  }
+  
+  .search-container .search-box {
+  margin-top: 8px; /* Slight margin for spacing */
+  display: block;
+  }

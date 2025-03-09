@@ -1,0 +1,33 @@
+
+        <div class="row" style="height:68vh;overflow-y:scroll">
+          <div class="col-xl-4 col-sm-6" *ngFor="let item of items" (click)="onCardClick(item)">
+            <div class="card border shadow-none" >
+              <div class="card-body p-4">
+                <div class="d-flex align-items-start">
+                  <div class="flex-grow-1 overflow-hidden">
+                    <h5 class="font-size-15 mb-1 text-truncate">
+                      <a class="text-body">{{ fields.length > 0 ? item[fields[0].key] : 'N/A' }}</a> 
+                    </h5>
+                    <p class="text-muted text-truncate mb-0">
+                      {{ fields.length > 1 ? item[fields[1].key] : 'N/A' }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="btn-group d-flex" role="group">
+                <div class="col" *ngFor="let action of gridActions">
+                  <button
+                    type="button"
+                    class="btn btn-outline-light btn-block w-100"
+                    ngbTooltip="{{ action.tooltip }}"
+                    placement="top"
+                    (click)="executeAction(action.action, item)"
+                  >
+                    <i class="{{ action.classname }}"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        

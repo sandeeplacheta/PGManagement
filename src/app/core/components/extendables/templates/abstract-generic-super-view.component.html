@@ -1,0 +1,57 @@
+<div class="card p-2">
+  <app-loader
+    [activeView]="activeView"
+    [count]="count"
+    [title]="config.title"
+    [SearchFields]="searchFields"
+    [basePath]="basePath"
+    (toggleView)="onToggleView($event)"
+    (addNewEvent)="addNewItem()"
+    [showAddButton]="config.Addbutton!=undefined?config.Addbutton:true"
+    (searchQuery)="onSearchQuery($event)"
+    [invoicewithoutso]="config.createinvwithoutso !== undefined?config.createinvwithoutso : true"
+  ></app-loader>
+  <div>
+    <ng-container *ngIf="activeView === 'grid'">
+      <app-grid
+        [fields]="fields"
+        [items]="items"
+        (cardClick)="viewDataDetails($event)"
+      >
+      </app-grid>
+    </ng-container>
+    <ng-container *ngIf="activeView === 'list'">
+      <app-list
+        [data]="items"
+        [columns]="cols"
+        (cardClick)="viewDataDetails($event)"
+        [emitOnRowClick]="emitOnRowClick"
+      >
+      </app-list>
+    </ng-container>
+    <ng-container *ngIf="activeView === 'form'">
+      <app-form-invoiceitem
+        #invoiceForm
+        [title]="config.title"
+        [fields]="config.formFields"
+        [tableColumns]="config.tableColumns"
+        [tdata]="products"
+        [totals]="config.totalFormFields"
+        [buttons]="controle_buttons"
+        [showFnKeyControls]="config.showFnKeyControls"
+        [rootData]="selectedItem"
+        [svc]="dataSvc"
+        [showAddItem]="config.showAddItem!=undefined?config.showAddItem:true"
+        [readonly]="readonly"
+        [totalService]="totalService"
+        [showActionControl]="config.removeAction"
+        [selectInvoices]="config.selectInvoice"
+      >
+      </app-form-invoiceitem>
+    </ng-container>
+  </div>
+</div>
+
+
+
+

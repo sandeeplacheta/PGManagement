@@ -1,0 +1,237 @@
+<div class="row align-items-center" *ngIf="activeView !== 'form'">
+  <div class="col-md-3">
+    <div class="row align-items-center">
+      <div class="d-flex">
+        <h6
+          class="card-title font-size-12 mb-0 d-flex align-items-center"
+          style="color: black"
+        >
+          {{ title }}
+          <span class="text-muted fw-normal ms-2">( {{ count }} )</span>
+        </h6>
+        <div class="ms-2">
+          <input
+            #searchInput
+            type="text"
+            style="width: 150px;"
+            class="custom-class search-box form-control-sm"
+            placeholder="Search"
+            (input)="onSearchInputChange(searchInput.value)"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div
+    class="col-md-6 d-flex justify-content-between align-items-center flex-wrap"
+  >
+    <ng-container *ngFor="let field of SearchFields ? SearchFields : []">
+      <label class="mt-1 md-1 font-weight-400" [for]="field.name">{{
+        field.label | titlecase
+      }}</label>
+      <input
+        [id]="field.name"
+        *ngIf="field.type === 'date'"
+        [type]="field.type"
+        [placeholder]="field.placeholder"
+        class="form-control"
+        (change)="onDropDownChange($event, field)"
+      />
+      
+      <ng-select
+        *ngIf="!field.editable && field.type === 'select'"
+        [items]="field.options"
+        [placeholder]="field.placeholder"
+        [closeOnSelect]="true"
+        [searchable]="true"
+        [hideSelected]="true"
+        [multiple]="field.multpleselection"
+        (change)="onDropDownChange($event, field)"
+        class="form-control font-size-10 form-control-sm p-0 m-0"
+      >
+        <ng-option
+          *ngFor="let option of field.options"
+          [value]="option.value"
+          class="font-size-8 form-control-sm custom-dropdown"
+        >
+          {{ option.label }}
+        </ng-option>
+      </ng-select>
+    </ng-container>
+   
+  </div> -->
+  <div class="col-md-6">
+  <div class="col-md-12">
+    <div class="row">
+      <ng-container *ngFor="let field of SearchFields; let i = index">
+        <!-- Start a new row every 3 fields -->
+        <!-- <div class="col-md-4 d-flex align-items-center mb-2"> -->
+          <div
+          class="{{ SearchFields.length === 2 ? 'col-md-6' : 'col-md-4' }} d-flex align-items-center mb-2"
+        >
+          <label class="font-weight-500 me-2 mb-0" [for]="field.name" style="white-space: nowrap;">
+            {{ field.label | titlecase }}
+          </label>
+  
+          <input
+            [id]="field.name"
+            *ngIf="field.type === 'date'"
+            [type]="field.type"
+            [placeholder]="field.placeholder"
+            class="form-control flex-grow-1"
+            style="min-width: 180px; width: 100%;"
+            (change)="onDropDownChange($event, field)"
+          />
+  
+          <ng-select
+            *ngIf="!field.editable && field.type === 'select'"
+            [items]="field.options"
+            [placeholder]="field.placeholder"
+            [closeOnSelect]="true"
+            [searchable]="true"
+            [hideSelected]="true"
+            [multiple]="field.multpleselection"
+            (change)="onDropDownChange($event, field)"
+            class="font-size-10 form-control-sm flex-grow-1"
+            style="min-width: 180px; width: 100%;"
+          >
+            <ng-option
+              *ngFor="let option of field.options"
+              [value]="option.value"
+              class="font-size-8 form-control-sm custom-dropdown"
+            >
+              {{ option.label }}
+            </ng-option>
+          </ng-select>
+        </div>
+  
+        <!-- Close and open a new row every 3 fields -->
+        <!-- <div class="w-100" *ngIf="(i + 1) % 3 === 0"></div> -->
+        <div class="w-100" *ngIf="SearchFields.length >= 3 && (i + 1) % 3 === 0"></div>
+
+      </ng-container>
+    </div>
+  </div>
+</div>
+  
+  <div class="col-md-3">
+    <div
+      class="d-flex flex-wrap align-items-center justify-content-md-end mt-2 mt-md-0 gap-2 mb-1"
+    >
+      <div
+        class="dropdown d-inline-block"
+        *ngIf="enableExport || enablePdfExport"
+      >
+        <button
+          class="btn btn-primary btn-sm dropdown-toggle"
+          type="button"
+          (click)="toggleExportDropdown()"
+          [attr.aria-expanded]="isExportDropdownOpen"
+        >
+          <i class="fas fa-file-export me-1"></i> Export
+        </button>
+        <ul
+          class="dropdown-menu"
+          [class.show]="isExportDropdownOpen"
+          style="min-width: 8rem"
+        >
+          <li *ngIf="enableExport">
+            <a
+              class="dropdown-item"
+              href="javascript:void(0)"
+              (click)="exportToExcel()"
+            >
+              <i class="fas fa-file-excel me-1"></i> Excel
+            </a>
+          </li>
+          <li *ngIf="enablePdfExport">
+            <a
+              class="dropdown-item"
+              href="javascript:void(0)"
+              (click)="exportToPdf()"
+            >
+              <i class="fas fa-file-pdf me-1"></i> PDF
+            </a>
+          </li>
+          <li *ngIf="enableCsvExport">
+            <a
+              class="dropdown-item"
+              href="javascript:void(0)"
+              (click)="exportToCsv()"
+            >
+              <i class="fas fa-file-csv me-1"></i> CSV
+            </a>
+          </li>
+        </ul>
+      </div>
+      <ul class="nav nav-pills">
+        <li
+          class="nav-item"
+          style="--bs-btn-padding-y: 0.1rem; --bs-btn-padding-x: 0.3rem"
+        >
+          <a
+            class="nav-link"
+            [class.active]="activeView === 'list'"
+            (click)="navigateTo('list')"
+          >
+            <i class="uil uil-list-ul"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [class.active]="activeView === 'grid'"
+            (click)="navigateTo('grid')"
+          >
+            <i class="uil uil-apps"></i>
+          </a>
+        </li>
+      </ul>
+      <div *ngIf="showAddButton">
+        <a
+          class="btn btn-light font-size-10"
+          [class.active]="activeView === 'form'"
+          (click)="navigateTo('form')"
+          style="color: black"
+        >
+          <i class="uil uil-plus me-1"></i> Add New
+        </a>
+      </div>
+
+      <div class="dropdown" *ngIf="invoicewithoutso?.show">
+        <a
+          class="btn btn-light font-size-10"
+          [class.active]="activeView === 'form'"
+          (click)="toggleDropdown()"
+        >
+          <i [class]="isDropdownOpen ? 'uil uil-minus' : 'uil uil-plus'"></i>
+        </a>
+        <ul
+          class="dropdown-menu"
+          [class.show]="isDropdownOpen"
+          style="display: block; position: absolute"
+          *ngIf="isDropdownOpen"
+        >
+          <li *ngFor="let button of invoicewithoutso.detail">
+            <a
+              class="dropdown-item"
+              href="javascript:void(0)"
+              [class.active]="activeView === 'form'"
+              (click)="
+                button.label === 'Create Sales Order'
+                  ? navigateTo('form')
+                  : button.action()
+              "
+            >
+              {{ button.label }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="activeView === 'list'"></div>
+<div *ngIf="activeView === 'grid'"></div>
+<div *ngIf="activeView === 'form'"></div>
