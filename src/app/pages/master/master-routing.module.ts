@@ -1,15 +1,4 @@
-import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CompanymasterComponent } from './companymaster/companymaster.component';
-import { ConfigurationComponent } from './configuration/configuration.component';
-import { EntityComponent } from './entity/entity.component';
-import { LocationComponent } from './location/location.component';
-import { BuildingComponent } from './building/building.component';
-import { FloorComponent } from './floor/floor.component';
-import { RoomComponent } from './room/room.component';
-import { EmployeeComponent } from './employee/employee.component';
-import { UserrolesComponent } from './userroles/userroles.component';
-import { DesignationComponent } from './designation/designation.component';
 import { routes as companymasterroutes } from './companymaster/companymaster-routing.module';
 import { routes as configurationroutes } from './configuration/configuration-routing.module';
 import { routes as entityroutes } from './entity/entity-routing.module';

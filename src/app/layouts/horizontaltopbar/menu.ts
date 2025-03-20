@@ -3,6 +3,82 @@ import { MenuItem } from './menu.model';
 export const MENU: MenuItem[] = [
     {
         id: 1,
+        label: 'Master',
+        icon: 'monitor',
+        subItems: [
+            {
+                id: 1,
+                label: 'Company Master',
+                link: '/master/companymaster',
+                parentId: 1
+            },
+            {
+                id: 2,
+                label: 'Configuration Master',
+                link: '/master/configuration',
+                parentId: 1
+            },
+            {
+                id: 3,
+                label: 'GeoLocations',
+                icon: 'book',
+                // link: '/master/entity',
+                // parentId: 1
+                subItems: [
+                    {
+                        id: 4,
+                        label: 'Entity',
+                        link: '/master/entity',
+                        parentId: 8
+                    },
+                    {
+                        id: 5,
+                        label: 'Location',
+                        link: '/master/location',
+                        parentId: 8
+                    },
+                    {
+                        id: 6,
+                        label: 'Building',
+                        link: '/master/building',
+                        parentId: 8
+                    },
+                    {
+                        id: 7,
+                        label: 'Floor',
+                        link: '/master/floor',
+                        parentId: 8
+                    },
+                    {
+                        id: 8,
+                        label: 'Room',
+                        link: '/master/room',
+                        parentId: 8
+                    }
+                ]
+            },
+            {
+                id: 4,
+                label: 'Designation Master',
+                link: '/master/designation',
+                parentId: 1
+            },
+            {
+                id: 5,
+                label: 'User Role Master',
+                link: '/master/userrole',
+                parentId: 1
+            },
+            {
+                id: 6,
+                label: 'Employee Master',
+                link: '/master/employee',
+                parentId: 1
+            },
+        ]
+    },
+    {
+        id: 1,
         label: 'HEADER.DASHBOARDS.TEXT',
         icon: 'monitor',
         subItems: [

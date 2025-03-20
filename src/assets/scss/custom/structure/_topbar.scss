@@ -18,7 +18,7 @@
     justify-content: space-between;
     align-items: center;
     margin: 0 auto;
-    height: $header-height;
+    height:  50px; //$header-height;
     padding: 0 calc(#{$grid-gutter-width} / 2) 0 0;
 
     .dropdown {
@@ -50,6 +50,7 @@ body {
     padding: 0 1.5rem;
     width: $sidebar-width;
     position: fixed;
+    height: 50px;
     z-index: 1;
     background-color: $navbar-brand-box-bg;
     box-shadow: $box-shadow;
