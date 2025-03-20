@@ -2,7 +2,7 @@
   <div class="col-lg-12">
     <div class="card" style="min-height: 75vh;">
       <div class="card-body">
-        <app-loader
+          <app-loader
           [activeView]="activeView"
           [count]="count"
           [title]="title"
@@ -13,10 +13,10 @@
           [exportableData]="items"
           [exportableColumns]="exportColumns"
           [fileName]="filename"
-
+          (toggleView)="onToggleView($event)"
+          (searchQuery)="onSearchQuery($event)"
         ></app-loader>
-
-        <div>
+         <div>
           <ng-container *ngIf="activeView === 'grid'">
             <app-grid
               (cardClick)="onCardClick($event)"
@@ -34,97 +34,123 @@
             </app-list>
           </ng-container>
 
-          <ng-container *ngIf="activeView === 'form'">
-            <!-- <div class="container mt-4">
+          <ng-container *ngIf="activeView === 'form'"> 
+             <div class="container mt-4">
                 <div>
                   <h4 class="text-primary">
-                    {{ selectedItemId ? "Update City" : "Add New City" }}
+                    {{ selectedItemId ? "Update Company Detaily" : "Add New Company" }}
                   </h4>
                 </div>
-                 <form class="mb-5" [formGroup]="form" (ngSubmit)="onSubmit()">
-                  <div class="row">
-                    <div class="col-md-6 mb-3">
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label font-size-12"
-                          >Zone Name<span class="text-danger">*</span></label
-                        >
-                        <div class="col-sm-8">
-                          <ng-select
-                            [items]="zoneField"
-                            bindLabel="zone"
-                            bindValue="id"
-                            [searchable]="true"
-                            [multiple]="false"
-                            [appendTo]="'body'"
-                            class="form-control"
-                            formControlName="zone"
-                            [required]="true"
-                            (change)="onZoneChange($event)"
-                          ></ng-select>
 
-                          <div
-                            *ngIf="
-                              form.get('zone')?.invalid &&
-                              (form.get('zone')?.touched ||
-                                form.get('zone')?.dirty)
-                            "
-                            class="text-danger"
-                          >
-                            Zone Name is required.
-                          </div>
+                    <div class="card">
+                        <div class="card-body projectForm">
+
+                            <form [formGroup]="companyForm">
+                                <ng-stepper #cdkStepper [linear]="true" class="cdksteppercontent">
+                                  
+                                  <!-- Step 1: General Information -->
+                                  <cdk-step [optional]="false">
+                                    <ng-template cdkStepLabel>
+                                      <div class="step-icon" title="General Info">
+                                        <i class="uil uil-clipboard-notes"></i>
+                                      </div>
+                                    </ng-template>
+                                    <div *ngIf="cdkStepper.selectedIndex === 0">
+                                      <div class="text-center mb-4">
+                                        <h5>General Information</h5>
+                                      </div>
+                              
+                                      <div class="row mb-3">
+                                        <div class="col-md-3"><label class="form-label">GST Applicable</label></div>
+                                        <div class="col-md-3"><input type="text" formControlName="gstApplicable" class="form-control"></div>
+                                        <div class="col-md-3"><label class="form-label">GST Number</label></div>
+                                        <div class="col-md-3"><input type="text" formControlName="gstNumber" class="form-control"></div>
+                                      </div>
+                              
+                                      <div class="row mb-3">
+                                        <div class="col-md-3"><label class="form-label">Company Name</label></div>
+                                        <div class="col-md-3"><input type="text" formControlName="companyName" class="form-control"></div>
+                                        <div class="col-md-3"><label class="form-label">Email</label></div>
+                                        <div class="col-md-3"><input type="text" formControlName="email" class="form-control"></div>
+                                      </div>
+
+                                      <div class="row mb-3">
+                                        <div class="col-md-3"><label class="form-label">Country</label></div>
+                                        <div class="col-md-3"><input type="text" formControlName="country" class="form-control"></div>
+                                        <div class="col-md-3"><label class="form-label">State</label></div>
+                                        <div class="col-md-3"><input type="text" formControlName="state" class="form-control"></div>
+                                      </div>
+                              
+                                      <div class="row mb-3">
+                                        <div class="col-md-3"><label class="form-label">City</label></div>
+                                        <div class="col-md-3"><input type="text" formControlName="city" class="form-control"></div>
+                                        <div class="col-md-3"><label class="form-label">Address</label></div>
+                                        <div class="col-md-3"><input type="text" formControlName="address" class="form-control"></div>
+                                      </div>
+                                    </div>
+                                    <div class="d-flex gap-3 mt-4">
+                                      <button type="button" class="btn btn-primary w-sm ms-auto" id="nextBtn" cdkStepperNext>Next</button>
+                                    </div>
+                                  </cdk-step>
+                              
+                                  <!-- Step 2: Bank Details -->
+                                  <cdk-step [optional]="true">
+                                    <ng-template cdkStepLabel>
+                                      <div class="step-icon" title="Bank Details">
+                                        <i class="uil uil-credit-card"></i>
+                                      </div>
+                                    </ng-template>
+                                    <div *ngIf="cdkStepper.selectedIndex === 1">
+                                      <div class="text-center mb-4"><h5>Bank Details</h5></div>
+                              
+                                      <div class="row mb-3">
+                                        <div class="col-md-3"><label class="form-label">PAN</label></div>
+                                        <div class="col-md-3"><input type="text" formControlName="pan" class="form-control"></div>
+                                        <div class="col-md-3"><label class="form-label">TIN</label></div>
+                                        <div class="col-md-3"><input type="text" formControlName="tin" class="form-control"></div>
+                                      </div>
+                                      <div class="row mb-3">
+                                        <div class="col-md-3"><label class="form-label">CIN</label></div>
+                                        <div class="col-md-3"><input type="text" formControlName="cin" class="form-control"></div>
+                                        <div class="col-md-3"><label class="form-label">FAX</label></div>
+                                        <div class="col-md-3"><input type="text" formControlName="fax" class="form-control"></div>
+                                      </div>
+                                    </div>
+                                    <div class="d-flex gap-3 mt-4">
+                                      <button type="button" class="btn btn-primary w-sm" cdkStepperPrevious>Previous</button>
+                                      <button type="button" class="btn btn-primary w-sm ms-auto" cdkStepperNext>Next</button>
+                                    </div>
+                                  </cdk-step>
+                              
+                                  <!-- Step 3: Documents -->
+                                  <cdk-step [optional]="false">
+                                    <ng-template cdkStepLabel>
+                                      <div class="step-icon" title="Documents">
+                                        <i class="uil uil-paperclip"></i>
+                                      </div>
+                                    </ng-template>
+                                    <div *ngIf="cdkStepper.selectedIndex === 2">
+                                      <div class="text-center  mb-4"><h5>Upload Documents</h5></div>
+                              
+                                      <div class="row mb-3">
+                                        <div class="col-md-3"><label class="form-label">PAN</label></div>
+                                        <div class="col-md-3"><input type="file" formControlName="documents" class="form-control"></div>
+                                        <div class="col-md-3"><label class="form-label">LOGO</label></div>
+                                        <div class="col-md-3"><input type="file" formControlName="logo" class="form-control"></div>
+                                      </div>
+                                    </div>
+                                    <div class="d-flex gap-3 mt-4">
+                                      <button type="button" class="btn btn-primary w-sm" cdkStepperPrevious>Previous</button>
+                                      <button type="button" class="btn btn-success w-sm ms-auto" (click)="onSubmit()">Submit</button>
+                                    </div>
+                                  </cdk-step>
+                                </ng-stepper>
+                              </form>
+                              
                         </div>
-                      </div>
                     </div>
-
-                    <div class="col-md-6 mb-3">
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label font-size-12"
-                          >City Name<span class="text-danger">*</span></label
-                        >
-                        <div class="col-sm-8">
-                          <input
-                            type="text"
-                            class="form-control"
-                            formControlName="city"
-                            placeholder="Enter City Name"
-                            required
-                          />
-
-                          <div
-                            *ngIf="
-                              form.get('city')?.invalid &&
-                              (form.get('city')?.touched ||
-                                form.get('city')?.dirty)
-                            "
-                            class="text-danger"
-                          >
-                            City Name is required.
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div
-                    class="d-flex justify-content-between align-items-center mb-3"
-                  >
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      (click)="onBack()"
-                    >
-                      Back
-                    </button>
-                    
-                    <button  class="btn 
-                    btn-primary"
-                      (click)="onSubmit()" 
-                      [disabled]="isSubmitting">
-                      {{ isSubmitting ? 'Saving...' : 'Save' }}
-                    </button>
-                  </div>
-                </form>
-              </div> -->
+ 
+              </div> 
           </ng-container>
         </div>
       </div>

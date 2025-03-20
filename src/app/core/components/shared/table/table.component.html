@@ -1,0 +1,68 @@
+<div class="table-container">
+    <!-- Header Section -->
+    <div class="table-header">
+      <h4>{{ title }}</h4>
+  
+      <div class="table-controls">
+        <!-- Search Input -->
+        <input type="text" [(ngModel)]="searchQuery" (input)="onSearchChange()" placeholder="Search..." class="search-input"/>
+  
+        <!-- View Toggle Buttons -->
+        <button (click)="toggleView()" [class.active]="isListView">
+          📄 List
+        </button>
+        <button (click)="toggleView()" [class.active]="!isListView">
+          🔲 Grid
+        </button>
+  
+        <!-- Add New Button -->
+        <button class="add-btn" (click)="onAddNew()">+ Add New</button>
+      </div>
+    </div>
+  
+    <!-- Table -->
+    <div *ngIf="isListView" class="table-responsive">
+      <table class="table custom-table">
+        <thead>
+          <tr>
+            <th *ngIf="showCheckboxes"><input type="checkbox" /></th>
+            <th *ngFor="let col of columns" (click)="onSort(col.field)">
+              {{ col.label }}
+              <span *ngIf="sortedColumn === col.field">
+                {{ isAscending ? '▲' : '▼' }}
+              </span>
+            </th>
+            <th *ngIf="showActions">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)">
+            <td *ngIf="showCheckboxes"><input type="checkbox" [(ngModel)]="item.selected" /></td>
+            <td *ngFor="let col of columns">{{ item[col.field] }}</td>
+            <td *ngIf="showActions">
+              <button class="btn btn-sm btn-primary" (click)="onActionClick('edit', item)">Edit</button>
+              <button class="btn btn-sm btn-danger" (click)="onActionClick('delete', item)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Grid View -->
+    <div *ngIf="!isListView" class="grid-view">
+      <div *ngFor="let item of filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)" class="grid-item">
+        <h5>{{ item.name }}</h5>
+        <p>{{ item.position }}</p>
+        <p>{{ item.email }}</p>
+        <div class="tags">
+          <span *ngFor="let tag of item.tags" class="tag">{{ tag }}</span>
+        </div>
+        <button class="btn btn-sm btn-primary" (click)="onActionClick('edit', item)">Edit</button>
+        <button class="btn btn-sm btn-danger" (click)="onActionClick('delete', item)">Delete</button>
+      </div>
+    </div>
+  
+    <!-- Pagination Controls -->
+    <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+  </div>
+  

@@ -43,7 +43,6 @@ import { TimelineModule } from './timeline/timeline.module';
     ProjectsModule,
     ExtraspagesModule,
     TimelineModule,
-    
     DndModule,
     LightboxModule,
     
