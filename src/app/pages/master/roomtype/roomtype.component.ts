@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 @Component({
-  selector: 'app-designation',
-  templateUrl: './designation.component.html',
-  styleUrls: ['./designation.component.scss']
+  selector: 'app-roomtype',
+  templateUrl: './roomtype.component.html',
+  styleUrls: ['./roomtype.component.scss']
 })
-export class DesignationComponent implements OnInit {
-  designationForm: FormGroup;
+export class RoomtypeComponent implements OnInit {
+  roomtypeForm: FormGroup;
   activeView: string = 'list';
   count = 0;
   items: any[] = [];
@@ -43,11 +43,15 @@ export class DesignationComponent implements OnInit {
 
 
   constructor(private fb: FormBuilder, private loc: Location) {
-    this.designationForm = this.fb.group({
+    this.roomtypeForm = this.fb.group({
       companyid: [''],
-      entityid: [''], 
-      designationname:[''],
-      designationcode:[''],
+      entityid: [''],      
+      locationid: [''],
+      buildingid: [''],
+      floorid:[''],
+      roomtypename:[''],
+      roomtypecode:[''],
+      roomtypemonthprice:[''],
     });
 
   }
@@ -65,8 +69,8 @@ change(event: any) {
   
 
   onSubmit() {
-    if (this.designationForm.valid) {
-      console.log('Submitted Data:', this.designationForm.value);
+    if (this.roomtypeForm.valid) {
+      console.log('Submitted Data:', this.roomtypeForm.value);
       alert('Company Registered Successfully');
     } else {
       alert('Please fill in all required fields correctly.');

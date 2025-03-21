@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 @Component({
   selector: 'app-room',
@@ -7,7 +7,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./room.component.scss']
 })
 export class RoomComponent implements OnInit {
-  floorForm: FormGroup;
+  roomForm: FormGroup;
   activeView: string = 'list';
   count = 0;
   items: any[] = [];
@@ -38,13 +38,12 @@ export class RoomComponent implements OnInit {
   item: any;
   filename!: string;
   allItems: any[] = [];
-  partyForm!: FormGroup;
   activeTab: string = "general";
   isSubmitting = false;
 
 
   constructor(private fb: FormBuilder, private loc: Location) {
-    this.floorForm = this.fb.group({
+    this.roomForm = this.fb.group({
       companyid: [''],
       entityid: [''],      
       locationid: [''],
@@ -53,14 +52,46 @@ export class RoomComponent implements OnInit {
       roomname:[''],
       roomcode:[''],
       roomtype:[''],
-      noofbed:['']
+      noofbed:[''],
+      beds: this.fb.array([]) 
     });
 
   }
   
+  get beds(): FormArray {
+    return this.roomForm.get('beds') as FormArray;
+  }
+  generateBeds() {
+    this.beds.clear(); // Clear existing beds
+    const numBeds = this.roomForm.get('noofbed')?.value || 0;
 
+    for (let i = 1; i <= numBeds; i++) {
+      this.beds.push(this.fb.group({
+        bedNo: [i], // Auto-numbered bed
+        bedType: [''],
+        personName: [''],
+        contactNo: [''],
+        depositAmount: [''],
+        document: [null]
+      }));
+    }
+  }
 
-
+  getBedFormGroup(index: number): FormGroup {
+    return this.beds.at(index) as FormGroup;
+  }
+  
+  onFileChange(event: any, index: number) {
+    const file = event.target.files[0];
+    if (file) {
+      const allowedTypes = ['image/png', 'image/jpeg', 'application/pdf'];
+      if (!allowedTypes.includes(file.type)) {
+        alert('Only PDF, JPG, and PNG files are allowed.');
+        return;
+      }
+      this.beds.at(index).patchValue({ document: file });
+    }
+  }
 
 change(event: any) {
   console.log("Step changed:", event.selectedIndex);
@@ -71,8 +102,8 @@ change(event: any) {
   
 
   onSubmit() {
-    if (this.floorForm.valid) {
-      console.log('Submitted Data:', this.floorForm.value);
+    if (this.roomForm.valid) {
+      console.log('Submitted Data:', this.roomForm.value);
       alert('Company Registered Successfully');
     } else {
       alert('Please fill in all required fields correctly.');
@@ -152,7 +183,31 @@ change(event: any) {
     }
   }
  
+ 
+  menuIndex: number | null = null; // To track which menu is open
 
-  
+toggleMenu(index: number) {
+  this.menuIndex = this.menuIndex === index ? null : index;
+}
+
+editBed(index: number) {
+  console.log(`Edit bed at index ${index}`);
+  this.menuIndex = null; // Close menu after action
+}
+
+changeBed(index: number) {
+  console.log(`Change bed at index ${index}`);
+  this.menuIndex = null;
+}
+
+changeRoom(index: number) {
+  console.log(`Change room at index ${index}`);
+  this.menuIndex = null;
+}
+
+exchangeBed(index: number) {
+  console.log(`Exchange bed at index ${index}`);
+  this.menuIndex = null;
+}
   
 }

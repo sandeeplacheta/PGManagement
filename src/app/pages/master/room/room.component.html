@@ -45,7 +45,7 @@
                       <div class="card">
                           <div class="card-body projectForm">
   
-                              <form [formGroup]="floorForm">
+                              <form [formGroup]="roomForm">
                                   <ng-stepper #cdkStepper [linear]="true" class="cdksteppercontent">
                                     
                                     <!-- Step 1: General Information -->
@@ -57,7 +57,7 @@
                                       </ng-template>
                                       <div *ngIf="cdkStepper.selectedIndex === 0">
                                         <div class="text-center mb-4">
-                                          <h5>Floor Details</h5>
+                                          <h5>Room Details</h5>
                                         </div>
                                 
                                         <div class="row mb-3">
@@ -77,8 +77,8 @@
                                         <div class="row mb-3">
                                             <div class="col-md-3"><label class="form-label">Floor Name</label></div>
                                             <div class="col-md-3"><input type="text" formControlName="floorname" class="form-control"></div>
-                                            <div class="col-md-3"><label class="form-label">Room Type</label></div>
-                                            <div class="col-md-3"><input type="text" formControlName="roomtype" class="form-control"></div>
+                                            <!-- <div class="col-md-3"><label class="form-label">Room Type</label></div>
+                                            <div class="col-md-3"><input type="text" formControlName="roomtype" class="form-control"></div> -->
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-md-3"><label class="form-label">Rooms Name</label></div>
@@ -88,9 +88,51 @@
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-md-3"><label class="form-label">No. of Beds</label></div>
-                                            <div class="col-md-3"><input type="text" formControlName="noofbed" class="form-control"></div>
+                                            <div class="col-md-3"><input type="text" formControlName="noofbed" class="form-control" (change)="generateBeds()"></div>
                                         </div>
   
+                                        <table class="table table-bordered mt-3" *ngIf="beds.length > 0">
+                                          <thead>
+                                            <tr>
+                                              <th class="bg-primary text-white text-center">Bed No.</th>
+                                              <th class="bg-primary text-white text-center">Bed Type</th>
+                                              <th class="bg-primary text-white text-center">Person Name</th>
+                                              <th class="bg-primary text-white text-center">Person Contact No.</th>
+                                              <th class="bg-primary text-white text-center">Deposit Amount</th>
+                                              <th class="bg-primary text-white text-center" style="width: 200px;">Upload Document</th> <!-- Reduced width -->
+                                              <th class="bg-primary text-white text-center" style="width: 150px;">Action</th> <!-- Increased width -->
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let bed of beds.controls; let i = index" [formGroup]="getBedFormGroup(i)">
+                                              <td>Bed-{{ bed.get('bedNo')?.value }}</td>
+                                              <td><input type="text" formControlName="bedType" class="form-control"></td>
+                                              <td><input type="text" formControlName="personName" class="form-control"></td>
+                                              <td><input type="text" formControlName="contactNo" class="form-control"></td>
+                                              <td><input type="text" formControlName="depositAmount" class="form-control"></td>
+                                              <td>
+                                                <input type="file" (change)="onFileChange($event, i)" accept=".pdf, .jpg, .png" class="form-control form-control-sm" style="width: 200px;"> 
+                                              </td>
+                                              <td class="position-relative">
+                                                <!-- Three-dot button -->
+                                                <button class="btn btn-light" (click)="toggleMenu(i)">
+                                                  &#x22EE; <!-- Unicode for vertical ellipsis -->
+                                                </button>
+                                              
+                                                <!-- Dropdown Menu -->
+                                                <div class="dropdown-menu show" *ngIf="menuIndex === i" [ngStyle]="{'position': 'absolute', 'z-index': '10'}">
+                                                  <a class="dropdown-item" (click)="editBed(i)">Edit</a>
+                                                  <a class="dropdown-item" (click)="changeBed(i)">Change Bed</a>
+                                                  <a class="dropdown-item" (click)="changeRoom(i)">Change Room</a>
+                                                  <a class="dropdown-item" (click)="exchangeBed(i)">Exchange Bed</a>
+                                                </div>
+                                              </td>
+                                              
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                        
+                                        
                                       </div>
                                       <div class="d-flex gap-3 mt-4">
                                         <button type="button" class="btn btn-primary w-sm" cdkStepperPrevious>Back</button>

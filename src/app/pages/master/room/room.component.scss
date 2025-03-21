@@ -1,0 +1,16 @@
+.dropdown-menu {
+    position: absolute !important;
+    z-index: 1050; /* Higher value to keep it above other elements */
+    background: white; /* Ensure visibility */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 150px;
+    border-radius: 5px;
+  }
+  
+  td {
+    position: relative; /* Ensures dropdown is positioned inside */
+  }
+  
+  .dropdown-menu {
+    z-index: 1050 !important;
+}

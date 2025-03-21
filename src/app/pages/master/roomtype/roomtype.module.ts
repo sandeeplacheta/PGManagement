@@ -1,10 +1,8 @@
-
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { DesignationRoutingModule } from './designation-routing.module';
-import { DesignationComponent } from './designation.component';
-
+import { RoomtypeRoutingModule } from './roomtype-routing.module';
+import { RoomtypeComponent } from './roomtype.component';
 import { AppModule } from 'src/app/app.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoaderModule } from 'src/app/core/components/loader/loader.module';
@@ -17,7 +15,7 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
 
 @NgModule({
   declarations: [
-    DesignationComponent
+    RoomtypeComponent
   ],
   imports: [
     CommonModule,
@@ -31,8 +29,7 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
     NgSelectModule,
     ReactiveFormsModule,
     AppModule,
-    DesignationRoutingModule
+    RoomtypeRoutingModule
   ]
 })
-export class DesignationModule { }
-
+export class RoomtypeModule { }
