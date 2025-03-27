@@ -8,6 +8,8 @@ import { Location } from '@angular/common';
 })
 export class RoomComponent implements OnInit {
   roomForm: FormGroup;
+  selectedBedForm!: FormGroup;
+
   activeView: string = 'list';
   count = 0;
   items: any[] = [];
@@ -40,7 +42,8 @@ export class RoomComponent implements OnInit {
   allItems: any[] = [];
   activeTab: string = "general";
   isSubmitting = false;
-
+  isModalOpen = false;
+  selectedBedIndex: number | null = null;
 
   constructor(private fb: FormBuilder, private loc: Location) {
     this.roomForm = this.fb.group({
@@ -81,7 +84,8 @@ export class RoomComponent implements OnInit {
     return this.beds.at(index) as FormGroup;
   }
   
-  onFileChange(event: any, index: number) {
+
+  onFileChange(event: any) {
     const file = event.target.files[0];
     if (file) {
       const allowedTypes = ['image/png', 'image/jpeg', 'application/pdf'];
@@ -89,9 +93,12 @@ export class RoomComponent implements OnInit {
         alert('Only PDF, JPG, and PNG files are allowed.');
         return;
       }
-      this.beds.at(index).patchValue({ document: file });
+      
+      const fileURL = URL.createObjectURL(file);
+      this.selectedBedForm.patchValue({ document: fileURL });
     }
   }
+  
 
 change(event: any) {
   console.log("Step changed:", event.selectedIndex);
@@ -210,4 +217,31 @@ exchangeBed(index: number) {
   this.menuIndex = null;
 }
   
+openModal(index: number) {
+  this.selectedBedIndex = index;
+  this.selectedBedForm = this.fb.group({
+    bedNo: [{ value: this.beds.at(index).get('bedNo')?.value, disabled: true }],
+    bedType: [this.beds.at(index).get('bedType')?.value, Validators.required],
+    personName: [this.beds.at(index).get('personName')?.value, Validators.required],
+    contactNo: [this.beds.at(index).get('contactNo')?.value, Validators.required],
+    depositAmount: [this.beds.at(index).get('depositAmount')?.value],
+    document: [this.beds.at(index).get('document')?.value]
+  });
+
+  this.isModalOpen = true;
+  this.menuIndex = null; // Close menu
+}
+
+closeModal() {
+  this.isModalOpen = false;
+  this.selectedBedIndex = null;
+}
+
+updateBed() {
+  if (this.selectedBedIndex !== null) {
+    this.beds.at(this.selectedBedIndex).patchValue(this.selectedBedForm.getRawValue());
+  }
+  this.closeModal();
+}
+
 }

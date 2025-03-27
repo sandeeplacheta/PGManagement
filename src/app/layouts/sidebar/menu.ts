@@ -5,6 +5,7 @@ export const MENU: MenuItem[] = [
         id: 0,
         label: 'Masters',
         icon: 'book',
+        
         subItems: [
             {
                 id: 1,
