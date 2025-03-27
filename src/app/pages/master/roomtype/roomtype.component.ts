@@ -2,49 +2,56 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 @Component({
-  selector: 'app-building',
-  templateUrl: './building.component.html',
-  styleUrls: ['./building.component.scss']
+  selector: 'app-roomtype',
+  templateUrl: './roomtype.component.html',
+  styleUrls: ['./roomtype.component.scss']
 })
-export class BuildingComponent  implements OnInit {
-  buildingForm: FormGroup;
+export class RoomtypeComponent implements OnInit {
+  roomtypeForm: FormGroup;
   activeView: string = 'list';
   count = 0;
   items: any[] = [];
   formFields: any[] | undefined;
-   cols =[{key:'sandeep',label:'Company Name'},
+   cols =[
+    {key:'sandeep',label:'Company Name'},
     {key:'sandeep',label:'Entity Name'},
     {key:'sandeep',label:'Location Name'},
-    {key:'sandeep',label:'Location Code'}] ;  
+    {key:'sandeep',label:'Building Name'},
+    {key:'sandeep',label:'Floor Name'},
+    {key:'sandeep',label:'Room No.'}
+  ] ;  
    fields  =[
     {key:'sandeep',label:'Company Name'},
     {key:'sandeep',label:'Entity Name'},
     {key:'sandeep',label:'Location Name'},
-    {key:'sandeep',label:'Location Code'}
+    {key:'sandeep',label:'Building Name'},
+    {key:'sandeep',label:'Floor Name'},
+    {key:'sandeep',label:'Room No.'}
   ] ;
   exportColumns =[{key:'sandeep',label:'syan'}] ;
   selectedItemId!: number;
   selectedCode!: string;
   addNewLink: any;
-   title= "Building Master";
+   title= "Room Master";
   form: FormGroup = new FormGroup({});
-  basePath ="/master/building";
+  basePath ="/master/room";
   item: any;
   filename!: string;
   allItems: any[] = [];
-  partyForm!: FormGroup;
   activeTab: string = "general";
   isSubmitting = false;
 
 
   constructor(private fb: FormBuilder, private loc: Location) {
-    this.buildingForm = this.fb.group({
+    this.roomtypeForm = this.fb.group({
       companyid: [''],
       entityid: [''],      
       locationid: [''],
-      locationcode: [''],
-      buildingname:[''],
-      buildingcode:['']
+      buildingid: [''],
+      floorid:[''],
+      roomtypename:[''],
+      roomtypecode:[''],
+      roomtypemonthprice:[''],
     });
 
   }
@@ -62,8 +69,8 @@ change(event: any) {
   
 
   onSubmit() {
-    if (this.buildingForm.valid) {
-      console.log('Submitted Data:', this.buildingForm.value);
+    if (this.roomtypeForm.valid) {
+      console.log('Submitted Data:', this.roomtypeForm.value);
       alert('Company Registered Successfully');
     } else {
       alert('Please fill in all required fields correctly.');

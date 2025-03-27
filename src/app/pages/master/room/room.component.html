@@ -1,1 +1,196 @@
-<p>room works!</p>
+<div class="row">
+    <div class="col-lg-12">
+      <div class="card" style="min-height: 75vh;">
+        <div class="card-body">
+            <app-loader
+            [activeView]="activeView"
+            [count]="count"
+            [title]="title"
+            [basePath]="basePath"
+            [enableExport]="true"
+            [enablePdfExport]="true"
+            [enableCsvExport]="true"
+            [exportableData]="items"
+            [exportableColumns]="exportColumns"
+            [fileName]="filename"
+            (toggleView)="onToggleView($event)"
+            (searchQuery)="onSearchQuery($event)"
+          ></app-loader>
+           <div>
+            <ng-container *ngIf="activeView === 'grid'">
+              <app-grid
+                (cardClick)="onCardClick($event)"
+                [fields]="fields"
+                [items]="items"
+              >
+              </app-grid>
+            </ng-container>
+            <ng-container *ngIf="activeView === 'list'">
+              <app-list
+                (cardClick)="onCardClick($event)"
+                [data]="items"
+                [columns]="cols"
+              >
+              </app-list>
+            </ng-container>
+  
+            <ng-container *ngIf="activeView === 'form'"> 
+               <div class="container mt-4">
+                  <div>
+                    <h4 class="text-primary">
+                      {{ selectedItemId ? "Update Room Details" : "Add New Room" }}
+                    </h4>
+                  </div>
+  
+                      <div class="card">
+                          <div class="card-body projectForm">
+  
+                              <form [formGroup]="roomForm">
+                                  <ng-stepper #cdkStepper [linear]="true" class="cdksteppercontent">
+                                    
+                                    <!-- Step 1: General Information -->
+                                    <cdk-step [optional]="false">
+                                      <ng-template cdkStepLabel>
+                                        <div class="step-icon" title="General Info">
+                                          <i class="uil uil-clipboard-notes"></i>
+                                        </div>
+                                      </ng-template>
+                                      <div *ngIf="cdkStepper.selectedIndex === 0">
+                                        <div class="text-center mb-4">
+                                          <h5>Room Details</h5>
+                                        </div>
+                                
+                                        <div class="row mb-3">
+                                          <div class="col-md-3"><label class="form-label">Company Name</label></div>
+                                          <div class="col-md-3"><input type="text" formControlName="companyid" class="form-control"></div>
+                                          <div class="col-md-3"><label class="form-label">Entity Name</label></div>
+                                          <div class="col-md-3"><input type="text" formControlName="entityid" class="form-control"></div>
+                                        </div>
+                                
+                                        <div class="row mb-3">
+                                          <div class="col-md-3"><label class="form-label">Location Name</label></div>
+                                          <div class="col-md-3"><input type="text" formControlName="locationid" class="form-control"></div>
+                                          <div class="col-md-3"><label class="form-label">Building Name</label></div>
+                                          <div class="col-md-3"><input type="text" formControlName="buildingid" class="form-control"></div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <div class="col-md-3"><label class="form-label">Floor Name</label></div>
+                                            <div class="col-md-3"><input type="text" formControlName="floorname" class="form-control"></div>
+                                            <!-- <div class="col-md-3"><label class="form-label">Room Type</label></div>
+                                            <div class="col-md-3"><input type="text" formControlName="roomtype" class="form-control"></div> -->
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-3"><label class="form-label">Rooms Name</label></div>
+                                            <div class="col-md-3"><input type="text" formControlName="roomname" class="form-control"></div>
+                                            <div class="col-md-3"><label class="form-label">Rooms Code</label></div>
+                                            <div class="col-md-3"><input type="text" formControlName="roomcode" class="form-control"></div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-3"><label class="form-label">No. of Beds</label></div>
+                                            <div class="col-md-3"><input type="text" formControlName="noofbed" class="form-control" (change)="generateBeds()"></div>
+                                        </div>
+  
+                                        <table class="table table-bordered mt-3" *ngIf="beds.length > 0">
+                                          <thead>
+                                            <tr>
+                                              <th class="bg-primary text-white text-center">Bed No.</th>
+                                              <th class="bg-primary text-white text-center">Bed Type</th>
+                                              <th class="bg-primary text-white text-center">Person Name</th>
+                                              <th class="bg-primary text-white text-center">Person Contact No.</th>
+                                              <th class="bg-primary text-white text-center">Deposit Amount</th>
+                                              <th class="bg-primary text-white text-center" style="width: 200px;">Upload Document</th>
+                                              <th class="bg-primary text-white text-center" style="width: 150px;">Action</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let bed of beds.controls; let i = index">
+                                              <td>Bed-{{ bed.get('bedNo')?.value }}</td>
+                                              <td>{{ bed.get('bedType')?.value }}</td>
+                                              <td>{{ bed.get('personName')?.value }}</td>
+                                              <td>{{ bed.get('contactNo')?.value }}</td>
+                                              <td>{{ bed.get('depositAmount')?.value }}</td>
+                                              <td>
+                                                <a *ngIf="bed.get('document')?.value" [href]="bed.get('document')?.value" target="_blank">View</a>
+                                              </td>
+                                              <td class="position-relative">
+                                                <button class="btn btn-light" (click)="toggleMenu(i)">
+                                                  &#x22EE;
+                                                </button>
+                                              
+                                                <div class="dropdown-menu show" *ngIf="menuIndex === i" [ngStyle]="{'position': 'absolute', 'z-index': '10'}">
+                                                  <a class="dropdown-item" (click)="openModal(i)">Edit</a>
+                                                  <a class="dropdown-item" (click)="changeBed(i)">Change Bed</a>
+                                                  <a class="dropdown-item" (click)="changeRoom(i)">Change Room</a>
+                                                  <a class="dropdown-item" (click)="exchangeBed(i)">Exchange Bed</a>
+                                                </div>
+                                              </td>
+                                              
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                        
+                                      </div>
+                                      <div class="d-flex gap-3 mt-4">
+                                        <button type="button" class="btn btn-primary w-sm" cdkStepperPrevious>Back</button>
+
+                                        <!-- <button type="button" class="btn btn-primary w-sm ms-auto" id="nextBtn" cdkStepperNext>Next</button> -->
+                                        <button type="button" class="btn btn-success w-sm ms-auto" (click)="onSubmit()">Submit</button>
+ 
+                                    </div>
+                                    </cdk-step>
+                                  </ng-stepper>
+                                </form>
+                                
+                          </div>
+                      </div>
+   
+                </div> 
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="isModalOpen" class="modal-backdrop">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Update Bed Details</h5>
+        <button type="button" class="close" (click)="closeModal()">&times;</button>
+      </div>
+  
+      <div class="modal-body" [formGroup]="selectedBedForm">
+        <div class="form-group">
+          <label>Bed No.</label>
+          <input type="text" formControlName="bedNo" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Bed Type</label>
+          <input type="text" formControlName="bedType" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Person Name</label>
+          <input type="text" formControlName="personName" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Contact No.</label>
+          <input type="text" formControlName="contactNo" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Deposit Amount</label>
+          <input type="text" formControlName="depositAmount" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Upload Document</label>
+          <input type="file" (change)="onFileChange($event)" class="form-control">
+        </div>
+      </div>
+  
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="updateBed()">OK</button>
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  

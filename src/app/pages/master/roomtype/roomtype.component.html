@@ -38,14 +38,14 @@
                <div class="container mt-4">
                   <div>
                     <h4 class="text-primary">
-                      {{ selectedItemId ? "Update Floor Details" : "Add New Floor" }}
+                      {{ selectedItemId ? "Update Room Type Details" : "Add New Room Type" }}
                     </h4>
                   </div>
   
                       <div class="card">
                           <div class="card-body projectForm">
   
-                              <form [formGroup]="floorForm">
+                              <form [formGroup]="roomtypeForm">
                                   <ng-stepper #cdkStepper [linear]="true" class="cdksteppercontent">
                                     
                                     <!-- Step 1: General Information -->
@@ -57,7 +57,7 @@
                                       </ng-template>
                                       <div *ngIf="cdkStepper.selectedIndex === 0">
                                         <div class="text-center mb-4">
-                                          <h5>Floor Details</h5>
+                                          <h5>Room Type Details</h5>
                                         </div>
                                 
                                         <div class="row mb-3">
@@ -77,12 +77,18 @@
                                         <div class="row mb-3">
                                             <div class="col-md-3"><label class="form-label">Floor Name</label></div>
                                             <div class="col-md-3"><input type="text" formControlName="floorname" class="form-control"></div>
-                                            <div class="col-md-3"><label class="form-label">Floor Code</label></div>
-                                            <div class="col-md-3"><input type="text" formControlName="floorcode" class="form-control"></div>
+                                            <!-- <div class="col-md-3"><label class="form-label">Room Type</label></div>
+                                            <div class="col-md-3"><input type="text" formControlName="roomtype" class="form-control"></div> -->
                                         </div>
                                         <div class="row mb-3">
-                                            <div class="col-md-3"><label class="form-label">Total Rooms</label></div>
-                                            <div class="col-md-3"><input type="text" formControlName="floorrooms" class="form-control"></div>
+                                            <div class="col-md-3"><label class="form-label">Rooms Type Name</label></div>
+                                            <div class="col-md-3"><input type="text" formControlName="roomtypename" class="form-control"></div>
+                                            <div class="col-md-3"><label class="form-label">Rooms Type Code</label></div>
+                                            <div class="col-md-3"><input type="text" formControlName="roomtypecode" class="form-control"></div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-3"><label class="form-label">Monthly Price</label></div>
+                                            <div class="col-md-3"><input type="text" formControlName="roomtypemonthprice" class="form-control"></div>
                                         </div>
   
                                       </div>

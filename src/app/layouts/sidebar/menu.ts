@@ -5,6 +5,7 @@ export const MENU: MenuItem[] = [
         id: 0,
         label: 'Masters',
         icon: 'book',
+        
         subItems: [
             {
                 id: 1,
@@ -49,6 +50,13 @@ export const MENU: MenuItem[] = [
                         link: '/master/floor',
                         parentId: 8
                     },
+                    
+                    {
+                        id: 5,
+                        label: 'Room Type',
+                        link: '/master/roomtype',
+                        parentId: 8
+                    },
                     {
                         id: 5,
                         label: 'Room',
@@ -66,7 +74,7 @@ export const MENU: MenuItem[] = [
             {
                 id: 5,
                 label: 'User Role Master',
-                link: '/master/userrole',
+                link: '/master/userroles',
                 parentId: 1
             },
             {

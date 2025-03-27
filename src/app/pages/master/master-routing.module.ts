@@ -9,6 +9,7 @@ import { routes as roomroutes } from './room/room-routing.module';
 import { routes as designationroutes } from './designation/designation-routing.module';
 import { routes as userrolesroutes } from './userroles/userroles-routing.module';
 import { routes as employeeroutes } from './employee/employee-routing.module';
+import { routes as roomtyperoutes } from './roomtype/roomtype-routing.module';
 
 // const routes: Routes = [
 //     {
@@ -95,6 +96,12 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./floor/floor.module').then((m) => m.FloorModule),
     children: floorroutes
+  },
+  {
+    path: 'roomtype',
+    loadChildren: () =>
+      import('./roomtype/roomtype.module').then((m) => m.RoomtypeModule),
+    children: roomtyperoutes
   },
   {
     path: 'room',

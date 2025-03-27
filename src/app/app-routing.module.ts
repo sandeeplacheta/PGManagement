@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { LayoutComponent } from './layouts/layout.component';
 import { AuthGuard } from './core/guards/auth.guard';
+// import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 const routes: Routes = [
   { path: '', component: LayoutComponent, loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule), canActivate: [AuthGuard] },
@@ -12,6 +13,9 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'top' })],
+  // providers: [
+  //   { provide: LocationStrategy, useClass: HashLocationStrategy } // Enable hash routing
+  // ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

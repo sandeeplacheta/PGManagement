@@ -1,1 +1,106 @@
-<p>building works!</p>
+<div class="row">
+    <div class="col-lg-12">
+      <div class="card" style="min-height: 75vh;">
+        <div class="card-body">
+            <app-loader
+            [activeView]="activeView"
+            [count]="count"
+            [title]="title"
+            [basePath]="basePath"
+            [enableExport]="true"
+            [enablePdfExport]="true"
+            [enableCsvExport]="true"
+            [exportableData]="items"
+            [exportableColumns]="exportColumns"
+            [fileName]="filename"
+            (toggleView)="onToggleView($event)"
+            (searchQuery)="onSearchQuery($event)"
+          ></app-loader>
+           <div>
+            <ng-container *ngIf="activeView === 'grid'">
+              <app-grid
+                (cardClick)="onCardClick($event)"
+                [fields]="fields"
+                [items]="items"
+              >
+              </app-grid>
+            </ng-container>
+            <ng-container *ngIf="activeView === 'list'">
+              <app-list
+                (cardClick)="onCardClick($event)"
+                [data]="items"
+                [columns]="cols"
+              >
+              </app-list>
+            </ng-container>
+  
+            <ng-container *ngIf="activeView === 'form'"> 
+               <div class="container mt-4">
+                  <div>
+                    <h4 class="text-primary">
+                      {{ selectedItemId ? "Update Building Details" : "Add New Building" }}
+                    </h4>
+                  </div>
+  
+                      <div class="card">
+                          <div class="card-body projectForm">
+  
+                              <form [formGroup]="buildingForm">
+                                  <ng-stepper #cdkStepper [linear]="true" class="cdksteppercontent">
+                                    
+                                    <!-- Step 1: General Information -->
+                                    <cdk-step [optional]="false">
+                                      <ng-template cdkStepLabel>
+                                        <div class="step-icon" title="General Info">
+                                          <i class="uil uil-clipboard-notes"></i>
+                                        </div>
+                                      </ng-template>
+                                      <div *ngIf="cdkStepper.selectedIndex === 0">
+                                        <div class="text-center mb-4">
+                                          <h5>Building Details</h5>
+                                        </div>
+                                
+                                        <div class="row mb-3">
+                                          <div class="col-md-3"><label class="form-label">Company Name</label></div>
+                                          <div class="col-md-3"><input type="text" formControlName="companyid" class="form-control"></div>
+                                          <div class="col-md-3"><label class="form-label">Entity Name</label></div>
+                                          <div class="col-md-3"><input type="text" formControlName="entityid" class="form-control"></div>
+                                        </div>
+                                
+                                        <div class="row mb-3">
+                                          <div class="col-md-3"><label class="form-label">Location Name</label></div>
+                                          <div class="col-md-3"><input type="text" formControlName="locationid" class="form-control"></div>
+                                          <div class="col-md-3"><label class="form-label">Location Code</label></div>
+                                          <div class="col-md-3"><input type="text" formControlName="locationcode" class="form-control"></div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <div class="col-md-3"><label class="form-label">Building Name</label></div>
+                                            <div class="col-md-3"><input type="text" formControlName="buildingname" class="form-control"></div>
+                                            <div class="col-md-3"><label class="form-label">Building Code</label></div>
+                                            <div class="col-md-3"><input type="text" formControlName="buildingcode" class="form-control"></div>
+                                          </div>
+  
+                                      </div>
+                                      <div class="d-flex gap-3 mt-4">
+                                        <button type="button" class="btn btn-primary w-sm" cdkStepperPrevious>Back</button>
+
+                                        <!-- <button type="button" class="btn btn-primary w-sm ms-auto" id="nextBtn" cdkStepperNext>Next</button> -->
+                                        <button type="button" class="btn btn-success w-sm ms-auto" (click)="onSubmit()">Submit</button>
+ 
+                                    </div>
+                                    </cdk-step>
+                                  </ng-stepper>
+                                </form>
+                                
+                          </div>
+                      </div>
+   
+                </div> 
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
