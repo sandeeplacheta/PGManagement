@@ -6,16 +6,17 @@ import { AuthGuard } from './core/guards/auth.guard';
 // import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 const routes: Routes = [
-  { path: '', component: LayoutComponent, loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule), canActivate: [AuthGuard] },
+  { path: '', component: LayoutComponent, loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule) },
   { path: 'account', loadChildren: () => import('./account/account.module').then(m => m.AccountModule) },
   { path: 'pages', loadChildren: () => import('./extrapages/extrapages.module').then(m => m.ExtrapagesModule), canActivate: [AuthGuard] },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'top' })],
-  // providers: [
-  //   { provide: LocationStrategy, useClass: HashLocationStrategy } // Enable hash routing
-  // ],
-  exports: [RouterModule]
+  
+  exports: [RouterModule],
+  providers: [
+    // { provide: LocationStrategy, useClass: HashLocationStrategy } // Enable hash routing
+  ],
 })
 export class AppRoutingModule { }

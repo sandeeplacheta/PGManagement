@@ -28,7 +28,7 @@ export class AuthfakeauthenticationService {
      * @param password password of user
      */
     login(email: string, password: string) {
-
+debugger;
         return this.http.post<any>(`/users/authenticate`, { email, password })
 
             .pipe(map(user => {
@@ -45,7 +45,7 @@ export class AuthfakeauthenticationService {
     /**
      * Logout the user
      */
-    logout() {
+    logout() { debugger;
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null!);
