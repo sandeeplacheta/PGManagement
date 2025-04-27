@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
+import { CompanyService } from 'src/app/core/services/api/master/company.service';
 
 @Component({
   selector: 'app-companymaster',
@@ -12,7 +13,13 @@ export class CompanymasterComponent implements OnInit {
   activeView: string = 'list';
   count = 0;
   items: any[] = [];
-   cols =[{key:'sandeep',label:'syan'}] ;
+   cols =[
+    {key:'name',label:'Legal Name'},
+    {key:'name',label:'Comapany Name'},
+    {key:'email',label:'Mail'},
+    {key:'city',label:'City'},
+    {key:'address',label:'Address'},
+  ] ;
    formFields: any[] | undefined;
    fields  =[{key:'sandeep',label:'syan'}] ;
    exportColumns =[{key:'sandeep',label:'syan'}] ;
@@ -30,7 +37,7 @@ export class CompanymasterComponent implements OnInit {
   isSubmitting = false;
 
 
-  constructor(private fb: FormBuilder, private loc: Location) {
+  constructor(private fb: FormBuilder, private loc: Location,private companyService:CompanyService) {
     this.companyForm = this.fb.group({
       gstApplicable: [''],
       gstNumber: [''],
@@ -62,6 +69,7 @@ change(event: any) {
 }
 
   ngOnInit(): void {
+    this.loadData();
     // this.companyForm = this.fb.group({
     //   // General Information
     //   cin: ['', [Validators.required, Validators.pattern('L[0-9]{5}[A-Z]{2}[0-9]{4}[A-Z]{3}[0-9]{6}')]],
@@ -99,7 +107,17 @@ change(event: any) {
     // });
   }
   
-
+ loadData(){
+  this.companyService.getListViewData().subscribe(
+    (response: any[]) => {
+      this.items = response;
+      this.count=this.items.length;
+    },
+    (error) => {
+      console.error('Error fetching company data:', error);
+    }
+  )
+ }
   onSubmit() {
     if (this.companyForm.valid) {
       console.log('Submitted Data:', this.companyForm.value);

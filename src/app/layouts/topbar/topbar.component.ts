@@ -8,6 +8,7 @@ import { LanguageService } from '../../core/services/language.service';
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../../core/services/auth.service';
 import { AuthfakeauthenticationService } from '../../core/services/authfake.service';
+import { LoginLogoutService } from 'src/app/core/services/api/master/loginlogout.service';
 
 @Component({
   selector: 'app-topbar',
@@ -28,12 +29,14 @@ export class TopbarComponent implements OnInit {
   valueset: any;
 
   @Output() mobileMenuButtonClicked = new EventEmitter();
+  error: any;
 
   constructor(
     private router: Router,
     public languageService: LanguageService,
     public _cookiesService: CookieService,
     public translate: TranslateService,
+    private loginService: LoginLogoutService,
     private authService: AuthenticationService,
     private authFackservice: AuthfakeauthenticationService) { }
 
@@ -91,11 +94,21 @@ export class TopbarComponent implements OnInit {
    * Logout the user
    */
   logout() {
-    if (environment.defaultauth === 'firebase') {
-      this.authService.logout();
-    } else {
-      this.authFackservice.logout();
-    }
+    // if (environment.defaultauth === 'firebase') {
+    //   this.authService.logout();
+    // } else {
+    //   this.authFackservice.logout();
+    // }
+    this.loginService.logoutAPI('sandeep')
+          .subscribe(
+            data => {
+              this.router.navigate(['/account/login']);
+            },
+            error => {
+              // Extract and show backend error message
+              this.error = error?.error?.message || 'Logout failed. Please try again.';
+            }
+          );
     this.router.navigate(['/account/login']);
   }
 
