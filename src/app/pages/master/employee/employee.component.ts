@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
+import { UserService } from 'src/app/core/services/api/master/user.service';
 
 @Component({
   selector: 'app-employee',
@@ -12,7 +13,14 @@ export class EmployeeComponent implements OnInit {
   activeView: string = 'list';
   count = 0;
   items: any[] = [];
-   cols =[{key:'sandeep',label:'syan'}] ;
+   cols =[
+    {key:'employeeName',label:'Employee Name'},
+    {key:'employeeCode',label:'Employee Code'},
+    {key:'employeeEmail',label:'Email'},
+    {key:'entityName',label:'Entity Name'},
+    {key:'companyName',label:'Company Name'},
+    {key:'locationName',label:'Location'},
+  ] ;
    formFields: any[] | undefined;
    fields  =[{key:'sandeep',label:'syan'}] ;
    exportColumns =[{key:'sandeep',label:'syan'}] ;
@@ -30,7 +38,7 @@ export class EmployeeComponent implements OnInit {
   isSubmitting = false;
 
 
-  constructor(private fb: FormBuilder, private loc: Location) {
+  constructor(private fb: FormBuilder, private loc: Location,private userservice: UserService) {
     this.employeeForm = this.fb.group({
       gstApplicable: [''],
       gstNumber: [''],
@@ -97,8 +105,20 @@ change(event: any) {
     //   additionalInfo: [''],
     //   remarks: ['']
     // });
+
+    this.loadData();
   }
-  
+  loadData(){
+    this.userservice.getListViewData().subscribe(
+      (response: any[]) => {
+        this.items = response;
+        this.count=this.items.length;
+      },
+      (error) => {
+        console.error('Error fetching company data:', error);
+      }
+    )
+   }
 
   onSubmit() {
     if (this.employeeForm.valid) {
