@@ -19,4 +19,4 @@ export class UserService  {
     return this.apiSvc.get(`/api/masters/employee`)
   }
 
-}
+} 
