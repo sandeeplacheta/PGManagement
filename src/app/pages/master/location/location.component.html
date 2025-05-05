@@ -45,7 +45,7 @@
                       <div class="card">
                           <div class="card-body projectForm">
   
-                              <form [formGroup]="locationForm">
+                              <form [formGroup]="locationForm" (ngSubmit)="onSubmit()">
                                   <ng-stepper #cdkStepper [linear]="true" class="cdksteppercontent">
                                     
                                     <!-- Step 1: General Information -->
@@ -62,24 +62,53 @@
                                 
                                         <div class="row mb-3">
                                           <div class="col-md-3"><label class="form-label">Company Name</label></div>
-                                          <div class="col-md-3"><input type="text" formControlName="companyid" class="form-control"></div>
+                                          <div class="col-md-3">
+                                            <ng-select
+                                              [items]="companyField"
+                                              bindLabel="name"
+                                              bindValue="id"
+                                              placeholder="Select Company"
+                                              formControlName="companyId"
+                                              class="form-control"
+                                              (change)="onCompanyChange($event)">
+                                            </ng-select>
+                                            <div
+                                            *ngIf="locationForm.get('companyId')?.invalid && (locationForm.get('companyId')?.touched || locationForm.get('companyId')?.dirty)"
+                                            class="text-danger">
+                                            Company selection is required.
+                                          </div>
+                                          </div>
                                           <div class="col-md-3"><label class="form-label">Entity Name</label></div>
-                                          <div class="col-md-3"><input type="text" formControlName="entityid" class="form-control"></div>
+                                          <div class="col-md-3">
+                                            <ng-select
+                                              [items]="entityField"
+                                              bindLabel="name"
+                                              bindValue="id"
+                                              placeholder="Select Company"
+                                              formControlName="entityId"
+                                              class="form-control">
+                                            </ng-select>
+                                            <div
+                                            *ngIf="locationForm.get('entityId')?.invalid && (locationForm.get('entityId')?.touched || locationForm.get('entityId')?.dirty)"
+                                            class="text-danger">
+                                            Entity selection is required.
+                                          </div>
+                                          </div>
                                         </div>
                                 
                                         <div class="row mb-3">
                                           <div class="col-md-3"><label class="form-label">Location Name</label></div>
-                                          <div class="col-md-3"><input type="text" formControlName="locationname" class="form-control"></div>
+                                          <div class="col-md-3"><input type="text" formControlName="locationName" class="form-control"></div>
                                           <div class="col-md-3"><label class="form-label">Location Code</label></div>
-                                          <div class="col-md-3"><input type="text" formControlName="locationcode" class="form-control"></div>
+                                          <div class="col-md-3"><input type="text" formControlName="locationCode" class="form-control"></div>
                                         </div>
   
                                       </div>
                                       <div class="d-flex gap-3 mt-4">
-                                        <button type="button" class="btn btn-primary w-sm" cdkStepperPrevious>Back</button>
+                                        <button type="button" class="btn btn-primary w-sm" (click)="onBack()">Back</button>
 
                                         <!-- <button type="button" class="btn btn-primary w-sm ms-auto" id="nextBtn" cdkStepperNext>Next</button> -->
-                                        <button type="button" class="btn btn-success w-sm ms-auto" (click)="onSubmit()">Submit</button>
+                                        <button type="submit" class="btn btn-success w-sm ms-auto">Submit</button>
  
                                     </div>
                                     </cdk-step>

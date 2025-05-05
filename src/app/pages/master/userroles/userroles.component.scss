@@ -1,0 +1,44 @@
+.list-container {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    gap: 1rem;
+  }
+  
+  .list-box {
+    width: 250px;
+    height: 100px;
+    border-radius: 8px;
+    padding: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 40px;
+  }
+  
+  /* Rounded and better styled search box */
+  .search-box {
+    width: 250px;
+    padding: 6px 12px;
+    font-size: 14px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    outline: none;
+    margin-bottom: 10px;
+  }
+  
+  /* Optional: Hover and selected option styling */
+  option:checked {
+    background-color: #0d6efd; /* Bootstrap primary color */
+    color: #fff;
+  }
+  
+  /* Optional: Smooth transition */
+  option {
+    transition: background-color 0.3s ease;
+  }
+  

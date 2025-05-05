@@ -8,6 +8,7 @@ import { Cover500Component } from './cover500/cover500.component';
 import { Basic500Component } from './basic500/basic500.component';
 import { MaintenanceComponent } from './maintenance/maintenance.component';
 import { ComingsoonComponent } from './comingsoon/comingsoon.component';
+import { MessagealertComponent } from './messagealert/messagealert/messagealert.component';
 
 @NgModule({
   declarations: [
@@ -16,8 +17,10 @@ import { ComingsoonComponent } from './comingsoon/comingsoon.component';
     Cover500Component,
     Basic500Component,
     MaintenanceComponent,
-    ComingsoonComponent
+    ComingsoonComponent,
+    MessagealertComponent
   ],
+  exports: [MessagealertComponent],
   imports: [
     CommonModule,
     ExtrapagesRoutingModule

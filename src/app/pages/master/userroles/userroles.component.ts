@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 @Component({
   selector: 'app-userroles',
@@ -8,57 +8,6 @@ import { Location } from '@angular/common';
 })
 export class UserrolesComponent  implements OnInit {
   userrolesForm: FormGroup;
-  isMasterEnabled: boolean = false;
-  isPGManagementEnabled: boolean = false;
-  isAMSEnabled: boolean = false;
-  isP2PEnabled: boolean = false;
-  isS2PEnabled: boolean = false;
-  isDashboardsEnabled: boolean = false;
-  isReportsEnabled: boolean = false;
-
-  Master: boolean = false;
-  PGManagement: boolean = false;
-  AMS: boolean = false;
-  P2P: boolean = false;
-  S2P: boolean = false;
-  Reports: boolean = false;
-  Dashboards: boolean = false;
-  
-  masterOptions = [
-    { label: 'Company', value: 'company' },
-    { label: 'Location', value: 'location' }
-  ];
-
-  pgManagementOptions = [
-    { label: 'Room 1', value: 'room1' },
-    { label: 'Room 2', value: 'room2' }
-  ];
-
-  AMSOptions = [
-    { label: 'Company', value: 'company' },
-    { label: 'Location', value: 'location' }
-  ];
-
-  P2POptions = [
-    { label: 'Room 1', value: 'room1' },
-    { label: 'Room 2', value: 'room2' }
-  ];
-
-  S2POptions = [
-    { label: 'Company', value: 'company' },
-    { label: 'Location', value: 'location' }
-  ];
-
-  DashboardsOptions = [
-    { label: 'Room 1', value: 'room1' },
-    { label: 'Room 2', value: 'room2' }
-  ];
-  ReportsOptions = [
-    { label: 'Company', value: 'company' },
-    { label: 'Location', value: 'location' }
-  ];
-
-
   activeView: string = 'list';
   count = 0;
   items: any[] = [];
@@ -85,127 +34,19 @@ export class UserrolesComponent  implements OnInit {
 
 
   constructor(private fb: FormBuilder, private loc: Location) {
-    this.userrolesForm = this.fb.group({
+    this.userrolesForm  = this.fb.group({
       userrolename: [''],
-      isMasterEnabled: [false], 
-      isPGManagementEnabled: [false],
-      isAMSEnabled: [false], 
-      isP2PEnabled: [false],
-      isS2PEnabled: [false], 
-      isDashboardsEnabled: [false],
-      isReportsEnabled: [false], 
-
-      masterSelection: [[]], 
-      pgManagementSelection: [[]] ,
-      AMSSelection: [[]], 
-      P2PSelection: [[]] ,
-      S2PSelection: [[]], 
-      DashboardsSelection: [[]] ,
-      ReportsSelection: [[]], 
-
-      Master: [false],
-      PGManagement: [false],
-      AMS: [false],
-      P2P: [false],
-      S2P: [false],
-      Reports: [false],
-      Dashboards: [false],
-    });
+     });
 
   }
   
   ngOnInit(): void {
-    this.userrolesForm.get('Master')?.valueChanges.subscribe(value => {
-      this.Master = value;
-      if (value) {
-        this.userrolesForm.patchValue({ isMasterEnabled: true });
-      }
+    this.userrolesForm  = this.fb.group({
+      userrolename: [''],
     });
-    this.userrolesForm.get('PGManagement')?.valueChanges.subscribe(value => {
-      this.PGManagement = value;
-      if (value) {
-        this.userrolesForm.patchValue({ isPGManagementEnabled: true });
-      }
-    });
-    this.userrolesForm.get('AMS')?.valueChanges.subscribe(value => {
-      this.AMS = value;
-      if (value) {
-        this.userrolesForm.patchValue({ isAMSEnabled: true });
-      }
-    });
-    this.userrolesForm.get('P2P')?.valueChanges.subscribe(value => {
-      this.P2P = value;
-      if (value) {
-        this.userrolesForm.patchValue({ isP2PEnabled: true });
-      }
-    });
-    this.userrolesForm.get('S2P')?.valueChanges.subscribe(value => {
-      this.S2P = value;
-      if (value) {
-        this.userrolesForm.patchValue({ isS2PEnabled: true });
-      }
-    });
-    this.userrolesForm.get('Reports')?.valueChanges.subscribe(value => {
-      this.Reports = value;
-      if (value) {
-        this.userrolesForm.patchValue({ isReportsEnabled: true });
-      }
-    });
-    this.userrolesForm.get('Dashboards')?.valueChanges.subscribe(value => {
-      this.Dashboards = value;
-      if (value) {
-        this.userrolesForm.patchValue({ isDashboardsEnabled: true });
-      }
-    });
-   
-   
-    this.userrolesForm.get('isMasterEnabled')?.valueChanges.subscribe(value => {
-      this.isMasterEnabled = value;
-      if (!value) {
-        this.userrolesForm.patchValue({ Master: false });
-      }
-    });
-  
-    this.userrolesForm.get('isPGManagementEnabled')?.valueChanges.subscribe(value => {
-      this.isPGManagementEnabled = value;
-      if (!value) {
-        this.userrolesForm.patchValue({ PGManagement: false });
-      }
-    });
-
-    this.userrolesForm.get('isAMSEnabled')?.valueChanges.subscribe(value => {
-      this.isAMSEnabled = value;
-      if (!value) {
-        this.userrolesForm.patchValue({ AMS: false });
-      }
-    });
-    this.userrolesForm.get('isP2PEnabled')?.valueChanges.subscribe(value => {
-      this.isP2PEnabled = value;
-      if (!value) {
-        this.userrolesForm.patchValue({ P2P: false });
-      }
-    });
-    this.userrolesForm.get('isS2PEnabled')?.valueChanges.subscribe(value => {
-      this.isS2PEnabled = value;
-      if (!value) {
-        this.userrolesForm.patchValue({ S2P: false });
-      }
-    });
-    this.userrolesForm.get('isDashboardsEnabled')?.valueChanges.subscribe(value => {
-      this.isDashboardsEnabled = value;
-      if (!value) {
-        this.userrolesForm.patchValue({ Dashboards: false });
-      }
-    });
-    this.userrolesForm.get('isReportsEnabled')?.valueChanges.subscribe(value => {
-      this.isReportsEnabled = value;
-      if (!value) {
-        this.userrolesForm.patchValue({ Reports: false });
-      }
-    });
-
+    console.log(this.userrolesForm.controls); // ✅ Now it's safe to access
   }
-
+  
 
 
 change(event: any) {
@@ -234,17 +75,7 @@ change(event: any) {
   }
 
 
-  columns = [
-    { label: 'Name', field: 'name' },
-    { label: 'Position', field: 'position' },
-    { label: 'Email', field: 'email' },
-    { label: 'Tags', field: 'tags' },
-  ];
-  
-  contacts = [
-    { name: 'Paul Sanchez', position: 'Angular Developer', email: 'paulsanchez@minia.com', tags: ['Php', 'Javascript'] },
-    { name: 'Darlene Smith', position: 'Backend Developer', email: 'darlenesmith@minia.com', tags: ['Php', 'Java', 'Python'] },
-  ];
+
   
   
   handleAction(event: { action: string }) {
@@ -276,6 +107,9 @@ change(event: any) {
   onToggleView(view: string): void {
     this.activeView = view;
     this.updateURL();
+    if (view === 'basic' && !this.userrolesForm.contains('userrolename')) {
+      this.userrolesForm.addControl('userrolename', new FormControl('', Validators.required));
+    }
   }
 
   onBack(): void {
@@ -297,7 +131,122 @@ change(event: any) {
     }
   }
  
+   
 
   
+  modulesList = [
+    {
+      key: 'Master',
+      label: 'Master',
+      leftList: [
+        { id: 1, name: 'Create Master' },
+        { id: 2, name: 'View Master' },
+        { id: 3, name: 'Edit Master' }
+      ] as PermissionItem[],
+      rightList: [] as PermissionItem[],
+      selectedLeft: [] as PermissionItem[],
+      selectedRight: [] as PermissionItem[],
+      leftSearch: ''
+    },
+    {
+      key: 'PGManagement',
+      label: 'PG Management',
+      leftList: [
+        { id: 4, name: 'Add PG' },
+        { id: 5, name: 'Update PG' }
+      ] as PermissionItem[],
+      rightList: [] as PermissionItem[],
+      selectedLeft: [] as PermissionItem[],
+      selectedRight: [] as PermissionItem[],
+      leftSearch: ''
+    },
+    {
+      key: 'AMS',
+      label: 'Asset Management',
+      leftList: [
+        { id: 6, name: 'Add Asset' },
+        { id: 7, name: 'Track Asset' }
+      ] as PermissionItem[],
+      rightList: [] as PermissionItem[],
+      selectedLeft: [] as PermissionItem[],
+      selectedRight: [] as PermissionItem[],
+      leftSearch: ''
+    },
+    {
+      key: 'P2P',
+      label: 'P2P',
+      leftList: [
+        { id: 8, name: 'Raise PO' },
+        { id: 9, name: 'Approve PO' }
+      ] as PermissionItem[],
+      rightList: [] as PermissionItem[],
+      selectedLeft: [] as PermissionItem[],
+      selectedRight: [] as PermissionItem[],
+      leftSearch: ''
+    },
+    {
+      key: 'S2P',
+      label: 'S2P',
+      leftList: [
+        { id: 10, name: 'Vendor Management' },
+        { id: 11, name: 'Invoice Process' }
+      ] as PermissionItem[],
+      rightList: [] as PermissionItem[],
+      selectedLeft: [] as PermissionItem[],
+      selectedRight: [] as PermissionItem[],
+      leftSearch: ''
+    },
+    {
+      key: 'Reports',
+      label: 'Reports',
+      leftList: [
+        { id: 12, name: 'Daily Report' },
+        { id: 13, name: 'Monthly Report' }
+      ] as PermissionItem[],
+      rightList: [] as PermissionItem[],
+      selectedLeft: [] as PermissionItem[],
+      selectedRight: [] as PermissionItem[],
+      leftSearch: ''
+    },
+    {
+      key: 'Dashboards',
+      label: 'Dashboards',
+      leftList: [
+        { id: 14, name: 'Admin Dashboard' },
+        { id: 15, name: 'User Dashboard' }
+      ] as PermissionItem[],
+      rightList: [] as PermissionItem[],
+      selectedLeft: [] as PermissionItem[],
+      selectedRight: [] as PermissionItem[],
+      leftSearch: ''
+    }
+  ];
+
+  moveToRight(module: any) {
+    module.selectedLeft.forEach((item: PermissionItem) => {
+      if (!module.rightList.some((r: PermissionItem) => r.id === item.id)) {
+        module.rightList.push(item);
+      }
+    });
+    module.leftList = module.leftList.filter((item: PermissionItem) => !module.selectedLeft.includes(item));
+    module.selectedLeft = [];
+  }
   
+
+  moveToLeft(module: any) {
+    module.leftList.push(...module.selectedRight);
+    module.rightList = module.rightList.filter((item: PermissionItem) => !module.selectedRight.includes(item));
+    module.selectedRight = [];
+  }
+
+  filteredLeft(module: any): PermissionItem[] {
+    const term = module.leftSearch?.toLowerCase() || '';
+    return module.leftList.filter((item: PermissionItem) => item.name.toLowerCase().includes(term));
+  }
+  
+}
+
+export interface PermissionItem {
+  id: number;
+  name: string;
 }

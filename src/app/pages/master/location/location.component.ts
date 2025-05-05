@@ -1,49 +1,48 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
+import { LoctionService } from 'src/app/core/services/api/master/loction.service';
+import { CommonService } from 'src/app/core/services/common.service';
 @Component({
   selector: 'app-location',
   templateUrl: './location.component.html',
   styleUrls: ['./location.component.scss']
 })
 export class LocationComponent  implements OnInit {
-  locationForm: FormGroup;
+  locationForm!: FormGroup;
   activeView: string = 'list';
   count = 0;
   items: any[] = [];
-  formFields: any[] | undefined;
-   cols =[{key:'sandeep',label:'Company Name'},
-    {key:'sandeep',label:'Entity Name'},
-    {key:'sandeep',label:'Location Name'},
-    {key:'sandeep',label:'Location Code'}] ;  
+   cols =[
+    {key:'companyName',label:'Company Name'},
+    {key:'entityName',label:'Entity Name'},
+    {key:'locationName',label:'Location Name'},
+    {key:'locationCode',label:'Location Code'}] ;  
    fields  =[
-    {key:'sandeep',label:'Company Name'},
-    {key:'sandeep',label:'Entity Name'},
-    {key:'sandeep',label:'Location Name'},
-    {key:'sandeep',label:'Location Code'}
+    {key:'entityName',label:'Entity Name'},
+    {key:'locationName',label:'Location Name'}
   ] ;
   exportColumns =[{key:'sandeep',label:'syan'}] ;
   selectedItemId!: number;
-  selectedCode!: string;
   addNewLink: any;
-   title= "Location Master";
+  title= "Location Master";
   form: FormGroup = new FormGroup({});
   basePath ="/master/location";
   item: any;
   filename!: string;
   allItems: any[] = [];
+  companyField:any[] = [];
+  entityField:any[] = [];
   partyForm!: FormGroup;
   activeTab: string = "general";
   isSubmitting = false;
 
 
-  constructor(private fb: FormBuilder, private loc: Location) {
-    this.locationForm = this.fb.group({
-      companyid: [''],
-      entityid: [''],      
-      locationid: [''],
-      locationcode: [''],
-    });
+  constructor(
+    private fb: FormBuilder,
+    private loc: Location,
+    private commonService:CommonService,
+    private locationService: LoctionService) {
 
   }
   
@@ -56,51 +55,133 @@ change(event: any) {
 }
 
   ngOnInit(): void {
+    this.loadData();
+    this.initForm();
+    this.loadDropDownData();
+  }
+ 
+  loadData(): void {
+    this.locationService.getEntityListViewData().subscribe({
+      next: (response) => {
+        this.items = response;
+      },
+      error: (error) => {
+        console.error('Error loading entity list:', error);
+      }
+    });
   }
   
+  private initForm(): void {
+    this.locationForm = this.fb.group({
+      companyId: [null,Validators.required,],
+      entityId: ['',Validators.required],
+      locationName: ['',Validators.required],
+      locationCode: ['',[Validators.required, Validators.minLength(3), Validators.maxLength(5)],
+      ],
+    });
+    if(this.selectedItemId){
+      this.locationService.getDataByID(this.selectedItemId).subscribe({
+        next:(response)=>{ 
+          this.onCompanyChange({ id: response.companyId });
+            setTimeout(() => {
+              this.populateForm(response);
+
+            }, 2000);
+          // this.onCompanyChange({ id: response.companyId });
+
+        }
+      })
+    }
+  }
+
+  populateForm(data:any):void{
+    this.locationForm.patchValue({
+      companyId: String(data.companyId),
+      entityId: String(data.entityId),
+      locationName: data.locationName,
+      locationCode: data.locationCode
+    });
+
+  }
+
+  loadDropDownData(): void {
+    this.commonService.getDropDownDataForMaster('company', '', '').subscribe({
+      next: (response) => {
+        this.companyField = response.map((item: any) => ({
+          id: item.id,
+          name: item.name, 
+        }));
+      },
+      error: (error) => {
+        console.error('Error fetching dropdown data:', error);
+      },
+    });
+  }
+    onCompanyChange(event:any):void{
+      this.entityField = [];
+      this.locationForm.get('entityId')?.setValue(null);
+      this.commonService.getDropDownDataForMaster('entity', event.id, '').subscribe({
+        next: (response) => {
+          this.entityField = response.map((item: any) => ({
+            id: item.id,
+            name: item.name, 
+          }));
+        },
+        error: (error) => {
+          console.error('Error fetching dropdown data:', error);
+        },
+      });
+    }
 
   onSubmit() {
     if (this.locationForm.valid) {
-      console.log('Submitted Data:', this.locationForm.value);
-      alert('Company Registered Successfully');
+      const formData = this.locationForm.value;
+      delete formData.companyId;
+      console.log('Submitted Data:', formData);
+  
+      if(this.selectedItemId){
+        this.locationService.updateEntity(this.selectedItemId,formData).subscribe({
+          next: (response) => {
+            alert('Location Update Successfully');
+            this.onBack();
+          },
+          error: (err) => {
+            console.error('Error saving entity:', err);
+            alert('Error occurred while saving entity.');
+          }
+        });
+      }else{
+        this.locationService.postData(formData).subscribe({
+          next: (response) => {
+            alert('Location Created Successfully');
+            this.onBack();
+          },
+          error: (err) => {
+            console.error('Error saving entity:', err);
+            alert('Error occurred while saving entity.');
+          }
+        });
+      }
+  
     } else {
-      alert('Please fill in all required fields correctly.');
+      this.locationForm.markAllAsTouched(); 
+      console.log('Form is invalid');
+      // alert('Please fill all required fields correctly.');
     }
   }
   
   onCardClick(item: any) {
    
-    this.selectedItemId = item['id'];
+    this.selectedItemId = item['locationId'];
     this.activeView = 'form';
     console.log('Selected Item ID:', this.selectedItemId);
-    // this.initForm();
-    // this.updateURL();
+    this.initForm();
+    this.updateURL();
   }
 
 
-  columns = [
-    { label: 'Name', field: 'name' },
-    { label: 'Position', field: 'position' },
-    { label: 'Email', field: 'email' },
-    { label: 'Tags', field: 'tags' },
-  ];
-  
-  contacts = [
-    { name: 'Paul Sanchez', position: 'Angular Developer', email: 'paulsanchez@minia.com', tags: ['Php', 'Javascript'] },
-    { name: 'Darlene Smith', position: 'Backend Developer', email: 'darlenesmith@minia.com', tags: ['Php', 'Java', 'Python'] },
-  ];
-  
-  
-  handleAction(event: { action: string }) {
-    console.log(event.action);
-  }
-  
-  onRowSelect(item: any) {
-    console.log('Row selected:', item);
-  }
-  onAddNew() {
-    console.log('Row selected:',);
-  }
+
+
 
   onSearchQuery(searchTerm: string): void {
     if (!searchTerm) {
@@ -123,10 +204,16 @@ change(event: any) {
   }
 
   onBack(): void {
-    
-    this.activeTab = "general"; // Reset to general tab
-    // this.loadData();
+    this.activeView='list'
+    this.activeTab = 'general'; // Reset to general tab
+    this.loadData();
+    this.resetForm();
     this.updateURL();
+  }
+  resetForm():void{
+    this.selectedItemId=0;
+    this.locationForm.reset();
+
   }
   setActiveTab(tab: string): void {
     this.activeTab = tab;
