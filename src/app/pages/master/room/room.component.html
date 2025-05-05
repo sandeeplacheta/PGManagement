@@ -89,6 +89,8 @@
                                         <div class="row mb-3">
                                             <div class="col-md-3"><label class="form-label">No. of Beds</label></div>
                                             <div class="col-md-3"><input type="text" formControlName="noofbed" class="form-control" (change)="generateBeds()"></div>
+                                            <div class="col-md-3"><label class="form-label">Charge Per Bed</label></div>
+                                            <div class="col-md-3"><input type="text" formControlName="perBedCharge" class="form-control"></div>
                                         </div>
   
                                         <table class="table table-bordered mt-3" *ngIf="beds.length > 0">

@@ -62,28 +62,88 @@
                                 
                                         <div class="row mb-3">
                                           <div class="col-md-3"><label class="form-label">Company Name</label></div>
-                                          <div class="col-md-3"><input type="text" formControlName="companyid" class="form-control"></div>
+                                          <div class="col-md-3">
+                                            <ng-select
+                                              [items]="companyField"
+                                              bindLabel="name"
+                                              bindValue="id"
+                                              placeholder="Select Company"
+                                              formControlName="companyId"
+                                              class="form-control"
+                                              (change)="onCompanyChange($event)">
+                                            </ng-select>
+                                            <div
+                                            *ngIf="buildingForm.get('companyId')?.invalid && (buildingForm.get('companyId')?.touched || buildingForm.get('companyId')?.dirty)"
+                                            class="text-danger">
+                                            Company selection is required.
+                                          </div>
+                                          </div>
                                           <div class="col-md-3"><label class="form-label">Entity Name</label></div>
-                                          <div class="col-md-3"><input type="text" formControlName="entityid" class="form-control"></div>
+                                          <div class="col-md-3">
+                                            <ng-select
+                                              [items]="entityField"
+                                              bindLabel="name"
+                                              bindValue="id"
+                                              placeholder="Select Company"
+                                              formControlName="entityId"
+                                              class="form-control"
+                                              (change)="onEntityChange($event)">
+                                            </ng-select>
+                                            <div
+                                            *ngIf="buildingForm.get('entityId')?.invalid && (buildingForm.get('entityId')?.touched || buildingForm.get('entityId')?.dirty)"
+                                            class="text-danger">
+                                            Entity selection is required.
+                                          </div>
+                                          </div>
                                         </div>
                                 
                                         <div class="row mb-3">
                                           <div class="col-md-3"><label class="form-label">Location Name</label></div>
-                                          <div class="col-md-3"><input type="text" formControlName="locationid" class="form-control"></div>
-                                          <div class="col-md-3"><label class="form-label">Location Code</label></div>
-                                          <div class="col-md-3"><input type="text" formControlName="locationcode" class="form-control"></div>
+                                          <div class="col-md-3">
+                                            <ng-select
+                                            [items]="locationField"
+                                            bindLabel="name"
+                                            bindValue="id"
+                                            placeholder="Select Location"
+                                            formControlName="locationId"
+                                            class="form-control">
+                                          </ng-select>    
+                                          <div
+                                            *ngIf="buildingForm.get('locationId')?.invalid && (buildingForm.get('locationId')?.touched || buildingForm.get('locationId')?.dirty)"
+                                            class="text-danger">
+                                            Location selection is required.
+                                          </div>
+                                          </div>
+                                          <!-- <div class="col-md-3"><label class="form-label">Location Code</label></div>
+                                          <div class="col-md-3"><input type="text" formControlName="locationcode" class="form-control"></div> -->
                                         </div>
 
                                         <div class="row mb-3">
                                             <div class="col-md-3"><label class="form-label">Building Name</label></div>
-                                            <div class="col-md-3"><input type="text" formControlName="buildingname" class="form-control"></div>
+                                            <div class="col-md-3"><input type="text" formControlName="buildingName" class="form-control">
+                                              <div
+                                              *ngIf="buildingForm.get('buildingName')?.invalid && (buildingForm.get('buildingName')?.touched || buildingForm.get('buildingNamee')?.dirty)"
+                                              class="text-danger">
+                                              Building Name is required.
+                                            </div>
+                                          </div>
                                             <div class="col-md-3"><label class="form-label">Building Code</label></div>
-                                            <div class="col-md-3"><input type="text" formControlName="buildingcode" class="form-control"></div>
+                                            <div class="col-md-3"><input type="text" formControlName="buildingCode" class="form-control">
+                                              <div class="text-danger" *ngIf="buildingForm.get('buildingCode')?.touched && buildingForm.get('buildingCode')?.invalid">
+                                                <div *ngIf="buildingForm.get('buildingCode')?.errors?.['minlength']">Minimum 3 characters required.</div>
+                                                <div *ngIf="buildingForm.get('buildingCode')?.errors?.['maxlength']">Maximum 5 characters allowed.</div>
+                                                <div
+                                                *ngIf="buildingForm.get('buildingCode')?.invalid && (buildingForm.get('buildingCode')?.touched || buildingForm.get('buildingCode')?.dirty)"
+                                                class="text-danger">
+                                                Entity Prefix is required.
+                                              </div>
+                                              </div>
+                                          </div>
                                           </div>
   
                                       </div>
                                       <div class="d-flex gap-3 mt-4">
-                                        <button type="button" class="btn btn-primary w-sm" cdkStepperPrevious>Back</button>
+                                        <button type="button" class="btn btn-primary w-sm" (click)="onBack()">Back</button>
 
                                         <!-- <button type="button" class="btn btn-primary w-sm ms-auto" id="nextBtn" cdkStepperNext>Next</button> -->
                                         <button type="button" class="btn btn-success w-sm ms-auto" (click)="onSubmit()">Submit</button>

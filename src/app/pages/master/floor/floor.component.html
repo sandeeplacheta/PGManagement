@@ -62,32 +62,101 @@
                                 
                                         <div class="row mb-3">
                                           <div class="col-md-3"><label class="form-label">Company Name</label></div>
-                                          <div class="col-md-3"><input type="text" formControlName="companyid" class="form-control"></div>
+                                          <div class="col-md-3">
+                                            <ng-select
+                                              [items]="companyField"
+                                              bindLabel="name"
+                                              bindValue="id"
+                                              placeholder="Select Company"
+                                              formControlName="companyId"
+                                              class="form-control"
+                                              (change)="onCompanyChange($event)">
+                                            </ng-select>
+                                            <div
+                                            *ngIf="floorForm.get('companyId')?.invalid && (floorForm.get('companyId')?.touched || floorForm.get('companyId')?.dirty)"
+                                            class="text-danger">
+                                            Company selection is required.
+                                          </div>
+                                          </div>
                                           <div class="col-md-3"><label class="form-label">Entity Name</label></div>
-                                          <div class="col-md-3"><input type="text" formControlName="entityid" class="form-control"></div>
+                                          <div class="col-md-3">
+                                            <ng-select
+                                              [items]="entityField"
+                                              bindLabel="name"
+                                              bindValue="id"
+                                              placeholder="Select Company"
+                                              formControlName="entityId"
+                                              class="form-control"
+                                              (change)="onEntityChange($event)">
+                                            </ng-select>
+                                            <div
+                                            *ngIf="floorForm.get('entityId')?.invalid && (floorForm.get('entityId')?.touched || floorForm.get('entityId')?.dirty)"
+                                            class="text-danger">
+                                            Entity selection is required.
+                                          </div>
+                                          </div>
                                         </div>
                                 
                                         <div class="row mb-3">
                                           <div class="col-md-3"><label class="form-label">Location Name</label></div>
-                                          <div class="col-md-3"><input type="text" formControlName="locationid" class="form-control"></div>
+                                          <div class="col-md-3">
+                                            <ng-select
+                                            [items]="locationField"
+                                            bindLabel="name"
+                                            bindValue="id"
+                                            placeholder="Select Location"
+                                            formControlName="locationId"
+                                            class="form-control"
+                                            (change)="onLocationChange($event)">
+                                          </ng-select>    
+                                          <div
+                                            *ngIf="floorForm.get('locationId')?.invalid && (floorForm.get('locationId')?.touched || floorForm.get('locationId')?.dirty)"
+                                            class="text-danger">
+                                            Location selection is required.
+                                          </div>
+                                          </div>
                                           <div class="col-md-3"><label class="form-label">Building Name</label></div>
-                                          <div class="col-md-3"><input type="text" formControlName="buildingid" class="form-control"></div>
-                                        </div>
+                                          <div class="col-md-3">
+                                            <ng-select
+                                            [items]="buildingField"
+                                            bindLabel="name"
+                                            bindValue="id"
+                                            placeholder="Select Building"
+                                            formControlName="buildingId"
+                                            class="form-control">
+                                          </ng-select>    
+                                          <div
+                                            *ngIf="floorForm.get('buildingId')?.invalid && (floorForm.get('buildingId')?.touched || floorForm.get('buildingId')?.dirty)"
+                                            class="text-danger">
+                                            Building selection is required.
+                                          </div>
+                                          </div>
+                                         </div>
 
                                         <div class="row mb-3">
                                             <div class="col-md-3"><label class="form-label">Floor Name</label></div>
-                                            <div class="col-md-3"><input type="text" formControlName="floorname" class="form-control"></div>
+                                            <div class="col-md-3"><input type="text" formControlName="floorName" class="form-control">
+                                              <div
+                                              *ngIf="floorForm.get('floorName')?.invalid && (floorForm.get('floorName')?.touched || floorForm.get('floorName')?.dirty)"
+                                              class="text-danger">
+                                              Floor Name is required.
+                                            </div></div>
                                             <div class="col-md-3"><label class="form-label">Floor Code</label></div>
-                                            <div class="col-md-3"><input type="text" formControlName="floorcode" class="form-control"></div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col-md-3"><label class="form-label">Total Rooms</label></div>
-                                            <div class="col-md-3"><input type="text" formControlName="floorrooms" class="form-control"></div>
+                                            <div class="col-md-3"><input type="text" formControlName="floorCode" class="form-control">
+                                              <div class="text-danger" *ngIf="floorForm.get('floorCode')?.touched && floorForm.get('floorCode')?.invalid">
+                                                <div *ngIf="floorForm.get('floorCode')?.errors?.['minlength']">Minimum 3 characters required.</div>
+                                                <div *ngIf="floorForm.get('floorCode')?.errors?.['maxlength']">Maximum 5 characters allowed.</div>
+                                                <div
+                                                *ngIf="floorForm.get('floorCode')?.invalid && (floorForm.get('floorCode')?.touched || floorForm.get('floorCode')?.dirty)"
+                                                class="text-danger">
+                                                FloorCode is required.
+                                              </div>
+                                              </div></div>
                                         </div>
   
                                       </div>
                                       <div class="d-flex gap-3 mt-4">
-                                        <button type="button" class="btn btn-primary w-sm" cdkStepperPrevious>Back</button>
+                                        <button type="button" class="btn btn-primary w-sm" (click)="onBack()">Back</button>
 
                                         <!-- <button type="button" class="btn btn-primary w-sm ms-auto" id="nextBtn" cdkStepperNext>Next</button> -->
                                         <button type="button" class="btn btn-success w-sm ms-auto" (click)="onSubmit()">Submit</button>
@@ -108,3 +177,29 @@
     </div>
   </div>
   
+  <!-- <app-messagealert 
+  [message]="toastMsg" 
+  [type]="toastType" 
+  [show]="showToast" 
+  (closed)="showToast = false">
+</app-messagealert> -->
+
+<app-messagealert 
+  [message]="toastMsg" 
+  [type]="toastType" 
+  [show]="showToast" 
+  [title]="toastTitle"  
+  (closed)="showToast = false">
+</app-messagealert>
+<!-- <app-messagealert
+  [show]="showConfirm"
+  [message]="'Are you sure you want to continue?'"
+  [type]="'warning'"
+  [title]="'Confirmation Required'"
+  [confirmMode]="true"
+  (confirmed)="handleConfirm()"
+  (cancelled)="handleCancel()"
+  (closed)="showConfirm = false">
+</app-messagealert> -->
+
+

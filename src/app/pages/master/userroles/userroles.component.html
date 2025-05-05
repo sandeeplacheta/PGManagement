@@ -63,174 +63,48 @@
                                         <div class="row mb-3">
                                           <div class="col-md-3"><label class="form-label">User Role Name</label></div>
                                           <div class="col-md-3"><input type="text" formControlName="userrolename" class="form-control"></div>
-                                       </div>
-                                       <div class="row mb-3">
-                                        <div class="d-flex flex-wrap">
-                                          <div class="form-check me-3" *ngIf="!Master">
-                                            <input class="form-check-input" type="checkbox" formControlName="Master" id="master">
-                                            <label class="form-check-label" for="master">Master</label>
-                                          </div>
-                                      
-                                          <div class="form-check me-3" *ngIf="!PGManagement">
-                                            <input class="form-check-input" type="checkbox" formControlName="PGManagement" id="pgManagement">
-                                            <label class="form-check-label" for="pgManagement">PG Management</label>
-                                          </div>
-                                      
-                                          <div class="form-check me-3" *ngIf="!AMS">
-                                            <input class="form-check-input" type="checkbox" formControlName="AMS" id="ams">
-                                            <label class="form-check-label" for="AMS">Asset Management</label>
-                                          </div>
-                                      
-                                          <div class="form-check me-3" *ngIf="!P2P">
-                                            <input class="form-check-input" type="checkbox" formControlName="P2P" id="p2p">
-                                            <label class="form-check-label" for="p2p">P2P</label>
-                                          </div>
-                                      
-                                          <div class="form-check" *ngIf="!S2P">
-                                            <input class="form-check-input" type="checkbox" formControlName="S2P" id="s2p">
-                                            <label class="form-check-label" for="s2p">S2P</label>
-                                          </div>
-
-                                          <div class="form-check me-3" *ngIf="!Dashboards">
-                                            <input class="form-check-input" type="checkbox" formControlName="Dashboards" id="dashboards">
-                                            <label class="form-check-label" for="dashboards">Dashboards</label>
-                                          </div>
-
-                                          <div class="form-check me-3" *ngIf="!Reports">
-                                            <input class="form-check-input" type="checkbox" formControlName="Reports" id="reports">
-                                            <label class="form-check-label" for="reports">Reports</label>
+                                          <div *ngIf="userrolesForm.get('userrolename')?.touched && userrolesForm.get('userrolename')?.invalid">
+                                            <small class="text-danger">User Role Name is required</small>
                                           </div>
                                         </div>
-                                      </div>
-                                      
                                        
-                                       <div class="row mb-3" *ngIf="Master">
-                                        <div class="col-md-3">
-                                          <input type="checkbox" formControlName="isMasterEnabled">
-                                          <label class="form-label">Master</label>
-                                        </div>
-                                        <div class="col-md-9" *ngIf="isMasterEnabled">
-                                          <ng-select
-                                            [items]="masterOptions"
-                                            [multiple]="true"
-                                            bindLabel="label"
-                                            bindValue="value"
-                                            formControlName="masterSelection"
-                                            placeholder="Select Master Options">
-                                          </ng-select>
+
+                                       <div *ngFor="let module of modulesList" class="mb-5 border p-3 rounded">
+                                        <h5>{{ module.label }}</h5>
+                                        <div class="row mb-2">
+                                          <div class="col-md-4">
+                                            <input
+                                              type="text"
+                                              [(ngModel)]="module.leftSearch"
+                                              class="form-control"
+                                              placeholder="Search {{ module.label }}..."
+                                            />
+                                            <select multiple [(ngModel)]="module.selectedLeft" class="form-control mt-2" size="6">
+                                              <option *ngFor="let item of filteredLeft(module)" [ngValue]="item">
+                                                {{ item.name }}
+                                              </option>
+                                            </select>
+                                          </div>
+                                      
+                                          <div class="col-md-2 d-flex flex-column justify-content-center align-items-center">
+                                            <button class="btn btn-outline-primary mb-2" (click)="moveToRight(module)">
+                                              Move Right »
+                                            </button>
+                                            <button class="btn btn-outline-primary" (click)="moveToLeft(module)">
+                                              « Move Left
+                                            </button>
+                                          </div>
+                                      
+                                          <div class="col-md-4">
+                                            <select multiple [(ngModel)]="module.selectedRight" class="form-control mt-4" size="8">
+                                              <option *ngFor="let item of module.rightList" [ngValue]="item">
+                                                {{ item.name }}
+                                              </option>
+                                            </select>
+                                          </div>
                                         </div>
                                       </div>
                                       
-                                      <div class="row mb-3" *ngIf="PGManagement">
-                                        <div class="col-md-3">
-                                          <input type="checkbox" formControlName="isPGManagementEnabled">
-
-                                          <label class="form-label">PG Management</label>
-                                        </div>
-                                        <div class="col-md-9" *ngIf="isPGManagementEnabled">
-                                          <ng-select
-                                            [items]="pgManagementOptions"
-                                            [multiple]="true"
-                                            bindLabel="label"
-                                            bindValue="value"
-                                            formControlName="pgManagementSelection"
-                                            placeholder="Select PG Management Options">
-                                          </ng-select>
-                                        </div>
-                                      </div>
-                                      
-                                      <div class="row mb-3" *ngIf="AMS">
-                                        <div class="col-md-3">
-                                          <input type="checkbox" formControlName="isAMSEnabled">
-
-                                          <label class="form-label">Asset Management</label>
-                                        </div>
-                                        <div class="col-md-9" *ngIf="isAMSEnabled">
-                                          <ng-select
-                                            [items]="AMSOptions"
-                                            [multiple]="true"
-                                            bindLabel="label"
-                                            bindValue="value"
-                                            formControlName="AMSSelection"
-                                            placeholder="Select AMS Options">
-                                          </ng-select>
-                                        </div>
-                                      </div>
-
-                                      <div class="row mb-3" *ngIf="P2P">
-                                        <div class="col-md-3">
-                                          <input type="checkbox" formControlName="isP2PEnabled">
-
-                                          <label class="form-label">P2P</label>
-                                        </div>
-                                        <div class="col-md-9" *ngIf="isP2PEnabled">
-                                          <ng-select
-                                            [items]="P2POptions"
-                                            [multiple]="true"
-                                            bindLabel="label"
-                                            bindValue="value"
-                                            formControlName="P2PSelection"
-                                            placeholder="Select P2P Options">
-                                          </ng-select>
-                                        </div>
-                                      </div>
-
-
-                                      <div class="row mb-3" *ngIf="S2P">
-                                        <div class="col-md-3">
-                                          <input type="checkbox" formControlName="isS2PEnabled">
-
-                                          <label class="form-label">S2P</label>
-                                        </div>
-                                        <div class="col-md-9" *ngIf="isS2PEnabled">
-                                          <ng-select
-                                            [items]="S2POptions"
-                                            [multiple]="true"
-                                            bindLabel="label"
-                                            bindValue="value"
-                                            formControlName="S2PSelection"
-                                            placeholder="Select S2P Options">
-                                          </ng-select>
-                                        </div>
-                                      </div>
-
-
-                                      <div class="row mb-3" *ngIf="Dashboards">
-                                        <div class="col-md-3">
-                                          <input type="checkbox" formControlName="isDashboardsEnabled">
-
-                                          <label class="form-label">Dashboards</label>
-                                        </div>
-                                        <div class="col-md-9" *ngIf="isDashboardsEnabled">
-                                          <ng-select
-                                            [items]="DashboardsOptions"
-                                            [multiple]="true"
-                                            bindLabel="label"
-                                            bindValue="value"
-                                            formControlName="DashboardsSelection"
-                                            placeholder="Select Dashboards Options">
-                                          </ng-select>
-                                        </div>
-                                      </div>
-
-
-                                      <div class="row mb-3" *ngIf="Reports">
-                                        <div class="col-md-3">
-                                          <input type="checkbox" formControlName="isReportsEnabled">
-
-                                          <label class="form-label">Reports</label>
-                                        </div>
-                                        <div class="col-md-9" *ngIf="isReportsEnabled">
-                                          <ng-select
-                                            [items]="ReportsOptions"
-                                            [multiple]="true"
-                                            bindLabel="label"
-                                            bindValue="value"
-                                            formControlName="ReportsSelection"
-                                            placeholder="Select Reports Options">
-                                          </ng-select>
-                                        </div>
-                                      </div>
                                       
                                       </div>
                                       <div class="d-flex gap-3 mt-4">

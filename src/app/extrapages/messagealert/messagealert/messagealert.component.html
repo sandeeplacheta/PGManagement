@@ -1,0 +1,33 @@
+<!-- 
+   <div *ngIf="show" class="custom-alert-overlay">
+    <div class="custom-alert-box shadow-lg p-4 rounded bg-white text-center" [ngClass]="typeClass">
+      <div class="icon-wrapper mb-2">
+        <i [ngClass]="iconClass" class="display-4"></i>
+      </div>
+      <h5 class="mb-3">{{ titleText }}</h5> 
+      <p class="mb-4">{{ message }}</p>
+      <button class="btn btn-outline-secondary btn-sm" (click)="close()">OK</button>
+    </div>
+  </div>
+  
+   -->
+
+   <div *ngIf="show" class="custom-alert-overlay">
+    <div class="custom-alert-box shadow-lg p-4 rounded bg-white text-center" [ngClass]="typeClass">
+      <div class="icon-wrapper mb-2">
+        <i [ngClass]="iconClass" class="display-4"></i>
+      </div>
+      <h5 class="mb-3">{{ titleText }}</h5>
+      <p class="mb-4">{{ message }}</p>
+  
+      <ng-container *ngIf="confirmMode; else simpleAlert">
+        <button class="btn btn-primary me-2" (click)="onConfirm()">Yes</button>
+        <button class="btn btn-outline-secondary" (click)="onCancel()">No</button>
+      </ng-container>
+  
+      <ng-template #simpleAlert>
+        <button class="btn btn-outline-secondary btn-sm" (click)="close()">OK</button>
+      </ng-template>
+    </div>
+  </div>
+  
