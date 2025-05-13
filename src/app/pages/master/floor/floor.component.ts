@@ -292,8 +292,8 @@ export class FloorComponent  implements OnInit {
  
 
   
-  toastMsg: string = '';
-  toastTitle: string = '';
+toastMsg: string = '';
+toastTitle: string = '';
 toastType: 'success' | 'error' | 'update' | 'delete' = 'success';
 showToast: boolean = false;
 

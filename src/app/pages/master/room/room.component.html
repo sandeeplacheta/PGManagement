@@ -59,36 +59,116 @@
                                         <div class="text-center mb-4">
                                           <h5>Room Details</h5>
                                         </div>
-                                
+                              
                                         <div class="row mb-3">
                                           <div class="col-md-3"><label class="form-label">Company Name</label></div>
-                                          <div class="col-md-3"><input type="text" formControlName="companyid" class="form-control"></div>
+                                          <div class="col-md-3">
+                                            <ng-select
+                                              [items]="companyField"
+                                              bindLabel="name"
+                                              bindValue="id"
+                                              placeholder="Select Company"
+                                              formControlName="companyId"
+                                              class="form-control"
+                                              (change)="onCompanyChange($event)">
+                                            </ng-select>
+                                            <div
+                                            *ngIf="roomForm.get('companyId')?.invalid && (roomForm.get('companyId')?.touched || roomForm.get('companyId')?.dirty)"
+                                            class="text-danger">
+                                            Company selection is required.
+                                          </div>
+                                          </div>
                                           <div class="col-md-3"><label class="form-label">Entity Name</label></div>
-                                          <div class="col-md-3"><input type="text" formControlName="entityid" class="form-control"></div>
+                                          <div class="col-md-3">
+                                            <ng-select
+                                              [items]="entityField"
+                                              bindLabel="name"
+                                              bindValue="id"
+                                              placeholder="Select Company"
+                                              formControlName="entityId"
+                                              class="form-control"
+                                              (change)="onEntityChange($event)">
+                                            </ng-select>
+                                            <div
+                                            *ngIf="roomForm.get('entityId')?.invalid && (roomForm.get('entityId')?.touched || roomForm.get('entityId')?.dirty)"
+                                            class="text-danger">
+                                            Entity selection is required.
+                                          </div>
+                                          </div>
                                         </div>
                                 
                                         <div class="row mb-3">
                                           <div class="col-md-3"><label class="form-label">Location Name</label></div>
-                                          <div class="col-md-3"><input type="text" formControlName="locationid" class="form-control"></div>
+                                          <div class="col-md-3">
+                                            <ng-select
+                                            [items]="locationField"
+                                            bindLabel="name"
+                                            bindValue="id"
+                                            placeholder="Select Location"
+                                            formControlName="locationId"
+                                            class="form-control"
+                                            (change)="onLocationChange($event)">
+                                          </ng-select>    
+                                          <div
+                                            *ngIf="roomForm.get('locationId')?.invalid && (roomForm.get('locationId')?.touched || roomForm.get('locationId')?.dirty)"
+                                            class="text-danger">
+                                            Location selection is required.
+                                          </div>
+                                          </div>
                                           <div class="col-md-3"><label class="form-label">Building Name</label></div>
-                                          <div class="col-md-3"><input type="text" formControlName="buildingid" class="form-control"></div>
-                                        </div>
-
+                                          <div class="col-md-3">
+                                            <ng-select
+                                            [items]="buildingField"
+                                            bindLabel="name"
+                                            bindValue="id"
+                                            placeholder="Select Building"
+                                            formControlName="buildingId"
+                                            class="form-control"
+                                            (change)="onBuildingChange($event)">
+                                          </ng-select>    
+                                          <div
+                                            *ngIf="roomForm.get('buildingId')?.invalid && (roomForm.get('buildingId')?.touched || roomForm.get('buildingId')?.dirty)"
+                                            class="text-danger">
+                                            Building selection is required.
+                                          </div>
+                                          </div>
+                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-md-3"><label class="form-label">Floor Name</label></div>
-                                            <div class="col-md-3"><input type="text" formControlName="floorname" class="form-control"></div>
-                                            <!-- <div class="col-md-3"><label class="form-label">Room Type</label></div>
-                                            <div class="col-md-3"><input type="text" formControlName="roomtype" class="form-control"></div> -->
+                                            <div class="col-md-3">
+                                              <ng-select
+                                              [items]="floorField"
+                                              bindLabel="name"
+                                              bindValue="id"
+                                              placeholder="Select Floor"
+                                              formControlName="floorId"
+                                              class="form-control"
+                                              >
+                                            </ng-select>
+                                          </div>
+                                            <div class="col-md-3"><label class="form-label">Room Type</label></div>
+                                            <div class="col-md-3">
+                                              <ng-select
+                                              [items]="roomTypeField"
+                                              bindLabel="name"
+                                              bindValue="id"
+                                              placeholder="Select RoomType"
+                                              formControlName="roomTypeId"
+                                              class="form-control"
+                                              (change)="onRoomTypeChange($event)"
+                                              >
+                                            </ng-select>
+                                          </div>
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-md-3"><label class="form-label">Rooms Name</label></div>
-                                            <div class="col-md-3"><input type="text" formControlName="roomname" class="form-control"></div>
+                                            <div class="col-md-3"><input type="text" formControlName="roomName" class="form-control"></div>
                                             <div class="col-md-3"><label class="form-label">Rooms Code</label></div>
-                                            <div class="col-md-3"><input type="text" formControlName="roomcode" class="form-control"></div>
+                                            <div class="col-md-3"><input type="text" formControlName="roomCode" class="form-control"></div>
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-md-3"><label class="form-label">No. of Beds</label></div>
-                                            <div class="col-md-3"><input type="text" formControlName="noofbed" class="form-control" (change)="generateBeds()"></div>
+                                            <div class="col-md-3"><input type="text" formControlName="numBeds" class="form-control" (change)="generateBeds()"></div>
                                             <div class="col-md-3"><label class="form-label">Charge Per Bed</label></div>
                                             <div class="col-md-3"><input type="text" formControlName="perBedCharge" class="form-control"></div>
                                         </div>
@@ -134,7 +214,7 @@
                                         
                                       </div>
                                       <div class="d-flex gap-3 mt-4">
-                                        <button type="button" class="btn btn-primary w-sm" cdkStepperPrevious>Back</button>
+                                        <button type="button" class="btn btn-primary w-sm" (click)="onBack()">Back</button>
 
                                         <!-- <button type="button" class="btn btn-primary w-sm ms-auto" id="nextBtn" cdkStepperNext>Next</button> -->
                                         <button type="button" class="btn btn-success w-sm ms-auto" (click)="onSubmit()">Submit</button>
@@ -155,7 +235,7 @@
     </div>
   </div>
   
-  <div *ngIf="isModalOpen" class="modal-backdrop">
+  <!-- <div *ngIf="isModalOpen" class="modal-backdrop">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Update Bed Details</h5>
@@ -194,5 +274,13 @@
         <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
       </div>
     </div>
-  </div>
+  </div> -->
   
+
+  <app-messagealert 
+  [message]="toastMsg" 
+  [type]="toastType" 
+  [show]="showToast" 
+  [title]="toastTitle"  
+  (closed)="showToast = false">
+</app-messagealert>

@@ -10,6 +10,8 @@ import { routes as designationroutes } from './designation/designation-routing.m
 import { routes as userrolesroutes } from './userroles/userroles-routing.module';
 import { routes as employeeroutes } from './employee/employee-routing.module';
 import { routes as roomtyperoutes } from './roomtype/roomtype-routing.module';
+import { routes as rolesroutes } from './roles/roles-routing.module';
+
 
 // const routes: Routes = [
 //     {
@@ -114,6 +116,12 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./designation/designation.module').then((m) => m.DesignationModule),
     children: designationroutes
+  },
+  {
+    path: 'roles',
+    loadChildren: () =>
+      import('./roles/roles.module').then((m) => m.RolesModule),
+    children: rolesroutes
   },
   {
     path: 'userroles',

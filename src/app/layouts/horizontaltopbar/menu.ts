@@ -65,6 +65,12 @@ export const MENU: MenuItem[] = [
             },
             {
                 id: 5,
+                label: 'Roles Master',
+                link: '/master/roles',
+                parentId: 1
+            },
+            {
+                id: 5,
                 label: 'User Role Master',
                 link: '/master/userrole',
                 parentId: 1
