@@ -14,6 +14,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgStepperModule } from 'angular-ng-stepper';
 import { CdkStepperModule } from '@angular/cdk/stepper';
+import { ExtrapagesModule } from 'src/app/extrapages/extrapages.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
     NgSelectModule,
     ReactiveFormsModule,
     AppModule,
+    ExtrapagesModule,    
     DesignationRoutingModule
   ]
 })

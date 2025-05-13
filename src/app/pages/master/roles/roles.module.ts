@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { RoomRoutingModule } from './room-routing.module';
-import { RoomComponent } from './room.component';
+import { RolesRoutingModule } from './roles-routing.module';
+import { RolesComponent } from './roles.component';
 import { AppModule } from 'src/app/app.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoaderModule } from 'src/app/core/components/loader/loader.module';
@@ -14,9 +14,10 @@ import { NgStepperModule } from 'angular-ng-stepper';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { ExtrapagesModule } from 'src/app/extrapages/extrapages.module';
 
+
 @NgModule({
   declarations: [
-    RoomComponent
+    RolesComponent
   ],
   imports: [
     CommonModule,
@@ -30,8 +31,8 @@ import { ExtrapagesModule } from 'src/app/extrapages/extrapages.module';
     NgSelectModule,
     ReactiveFormsModule,
     AppModule,
-    ExtrapagesModule,
-    RoomRoutingModule
+    ExtrapagesModule,  
+    RolesRoutingModule
   ]
 })
-export class RoomModule { }
+export class RolesModule { }

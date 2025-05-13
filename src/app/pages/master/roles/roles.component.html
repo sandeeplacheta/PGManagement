@@ -45,7 +45,7 @@
                       <div class="card">
                           <div class="card-body projectForm">
   
-                              <form [formGroup]="designationForm">
+                              <form [formGroup]="rolesForm">
                                   <ng-stepper #cdkStepper [linear]="true" class="cdksteppercontent">
                                     
                                     <!-- Step 1: General Information -->
@@ -61,40 +61,24 @@
                                         </div>
                                 
                                          <div class="row mb-3">
-                                          <div class="col-md-3"><label class="form-label">Company Name</label></div>
+                                          <div class="col-md-3"><label class="form-label">Roles Menu</label></div>
                                           <div class="col-md-3">
                                             <ng-select
-                                              [items]="companyField"
+                                              [items]="rolesField"
                                               bindLabel="name"
                                               bindValue="id"
-                                              placeholder="Select Company"
-                                              formControlName="companyId"
-                                              class="form-control"
-                                              (change)="onCompanyChange($event)">
-                                            </ng-select>
-                                            <div
-                                            *ngIf="designationForm.get('companyId')?.invalid && (designationForm.get('companyId')?.touched || designationForm.get('companyId')?.dirty)"
-                                            class="text-danger">
-                                            Company selection is required.
-                                          </div>
-                                          </div>
-                                          <div class="col-md-3"><label class="form-label">Entity Name</label></div>
-                                          <div class="col-md-3">
-                                            <ng-select
-                                              [items]="entityField"
-                                              bindLabel="name"
-                                              bindValue="id"
-                                              placeholder="Select Company"
-                                              formControlName="entityId"
+                                              placeholder="Select Roles Menu"
+                                              formControlName="roleMenu"
                                               class="form-control"
                                               >
                                             </ng-select>
                                             <div
-                                            *ngIf="designationForm.get('entityId')?.invalid && (designationForm.get('entityId')?.touched || designationForm.get('entityId')?.dirty)"
+                                            *ngIf="rolesForm.get('roleMenu')?.invalid && (rolesForm.get('roleMenu')?.touched || rolesForm.get('roleMenu')?.dirty)"
                                             class="text-danger">
-                                            Entity selection is required.
+                                            Roles Menu selection is required.
                                           </div>
                                           </div>
+                                          
                                         </div>
                                 
                                         <div class="row mb-3">
