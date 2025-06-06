@@ -89,6 +89,12 @@ export const MENU: MenuItem[] = [
                 link: '/master/employee',
                 parentId: 1
             },
+            {
+                id: 6,
+                label: 'ListView Master',
+                link: '/master/listview',
+                parentId: 1
+            },
         ]
     },{
         id: 1,

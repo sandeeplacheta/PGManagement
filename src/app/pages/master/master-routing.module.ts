@@ -11,6 +11,7 @@ import { routes as userrolesroutes } from './userroles/userroles-routing.module'
 import { routes as employeeroutes } from './employee/employee-routing.module';
 import { routes as roomtyperoutes } from './roomtype/roomtype-routing.module';
 import { routes as rolesroutes } from './roles/roles-routing.module';
+import { routes as listviewroutes } from './listview/listview-routing.module';
 
 
 // const routes: Routes = [
@@ -134,6 +135,12 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./employee/employee.module').then((m) => m.EmployeeModule),
     children: employeeroutes
+  },
+  {
+    path: 'listview',
+    loadChildren: () =>
+      import('./listview/listview.module').then((m) => m.ListviewModule),
+    children: listviewroutes
   },
   // {
   //   path: "",
