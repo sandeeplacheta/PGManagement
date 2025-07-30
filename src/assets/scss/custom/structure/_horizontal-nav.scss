@@ -58,7 +58,7 @@ body[data-layout="horizontal"] {
     z-index: 100;
     border-top: 1px solid var(--#{$prefix}border-color);
     border-bottom: 1px solid var(--#{$prefix}border-color);
-    height: 50px;
+    height: 40px;
     @media (min-width: 992px) {
         background: $topnav-bg;
     }
