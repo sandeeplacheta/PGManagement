@@ -9,13 +9,15 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private router: Router) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          this.router.navigate(['/login']);  // Redirect to login page on 401
-        }
-        throw error;
-      })
-    );
+    // return next.handle(req).pipe(
+    //   catchError((error: HttpErrorResponse) => {
+    //     if (error.status === 401) {
+    //       this.router.navigate(['/login']);  // Redirect to login page on 401
+    //     }
+    //     throw error;
+    //   })
+    // );
+        return next.handle(req);
+
   }
 }
